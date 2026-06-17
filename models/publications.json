@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "title": "Smart Grid Implementation in Moroccan Medium-Sized Cities",
+    "year": "2025",
+    "type": "Article",
+    "category": "Énergie & Environnement",
+    "authors": "Benali, K., Outahadout, M."
+  },
+  {
+    "id": 2,
+    "title": "LoRaWAN Deployment for Urban Sensing: Marrakech Pilot",
+    "year": "2025",
+    "type": "Rapport technique",
+    "category": "Connectivité & IoT",
+    "authors": "Slimani, A. et al."
+  },
+  {
+    "id": 3,
+    "title": "Cadre de cybersécurité pour les villes intelligentes africaines",
+    "year": "2024",
+    "type": "Guide méthodologique",
+    "category": "Gouvernance & Sécurité",
+    "authors": ""
+  },
+  {
+    "id": 4,
+    "title": "Mobilité urbaine et IA : état de l'art au Maroc",
+    "year": "2024",
+    "type": "Revue de littérature",
+    "category": "Mobilité Urbaine",
+    "authors": ""
+  },
+  {
+    "id": 5,
+    "title": "Rapport annuel Centre Smart City 2023",
+    "year": "2023",
+    "type": "Rapport annuel",
+    "category": "Centre Smart City UCA",
+    "authors": ""
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "title": "SmartGrid Marrakech",
+    "axe": "Énergie & Environnement",
+    "description": "Réseau électrique adaptatif avec gestion prédictive de la demande.",
+    "status": "En cours",
+    "statusClass": "bc",
+    "period": "2024–2026",
+    "icon": "M7 2v11h3v9l7-12h-4l4-8z"
+  },
+  {
+    "id": 2,
+    "title": "UrbanSense — Capteurs LoRaWAN",
+    "axe": "Connectivité & IoT",
+    "description": "200 capteurs pour la mesure en temps réel de la qualité de l'air.",
+    "status": "En cours",
+    "statusClass": "bc",
+    "period": "2023–2025",
+    "icon": "M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9z"
+  },
+  {
+    "id": 3,
+    "title": "MobiFlow — Optimisation trafic",
+    "axe": "Mobilité Urbaine",
+    "description": "IA pour gestion dynamique des feux et information voyageur.",
+    "status": "Terminé",
+    "statusClass": "bf",
+    "period": "2022–2023",
+    "icon": "M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11z"
+  },
+  {
+    "id": 4,
+    "title": "CitySecure — Cybersécurité",
+    "axe": "Gouvernance & Sécurité",
+    "description": "Référentiel cybersécurité pour infrastructures critiques des villes.",
+    "status": "En cours",
+    "statusClass": "bc",
+    "period": "2024–2025",
+    "icon": "M12 1L3 5v6c0 5.55 3.84 10.74 9 12z"
+  },
+  {
+    "id": 5,
+    "title": "AquaSmart — Gestion de l'eau",
+    "axe": "Énergie & Environnement",
+    "description": "Détection de fuites par ML et optimisation de la distribution.",
+    "status": "En cours",
+    "statusClass": "bc",
+    "period": "2025–2027",
+    "icon": "M12 2C6.48 2 2 6.48 2 12z"
+  },
+  {
+    "id": 6,
+    "title": "ParticiCity — Gouvernance participative",
+    "axe": "Gouvernance & Sécurité",
+    "description": "App citoyenne pour participation aux décisions locales.",
+    "status": "Terminé",
+    "statusClass": "bf",
+    "period": "2022–2024",
+    "icon": "M16 11c1.66 0 2.99-1.34 2.99-3z"
+  }
+]

@@ -1,0 +1,14 @@
+<footer>
+  <div class="ft-in">
+    <div class="ft-grid">
+      <div class="ft-brand">
+        <h3><%= settings.general.siteName %></h3>
+        <p>Un centre d'innovation académique dédié à la recherche et au développement de solutions pour les villes intelligentes et durables au Maroc.</p>
+      </div>
+      <div class="ft-col"><h4>Le Centre</h4><a href="/qui-sommes-nous">Qui sommes-nous</a><a href="/axes">Axes de recherche</a><a href="/projets">Projets</a><a href="#">Partenaires</a></div>
+      <div class="ft-col"><h4>Ressources</h4><a href="/publications">Publications</a><a href="/formations">Formations</a><a href="/evenements">Événements</a></div>
+      <div class="ft-col"><h4>Contact</h4><a href="mailto:<%= settings.general.contactEmail %>"><%= settings.general.contactEmail %></a><a href="#"><%= settings.general.address %></a><a href="#"><%= settings.general.websiteUrl %></a></div>
+    </div>
+    <div class="ft-bot"><span>© <%= new Date().getFullYear() %> <%= settings.general.siteName %> — <%= settings.general.universityName %>.</span><div style="display:flex;gap:16px"><a href="#">Mentions légales</a><a href="#">Confidentialité</a></div></div>
+  </div>
+</footer>

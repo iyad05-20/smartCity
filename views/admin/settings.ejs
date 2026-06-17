@@ -1,0 +1,56 @@
+<div class="at">Paramètres du Site</div>
+<div class="as">Gérer les informations générales, les textes d'accroche et les médias</div>
+
+<form action="/admin/settings" method="POST">
+  
+  <div class="fc">
+    <h3>Informations Générales</h3>
+    <div class="fr">
+      <div class="fg"><label>Nom du Site</label><input type="text" name="siteName" value="<%= settings.general.siteName %>"></div>
+      <div class="fg"><label>Nom de l'Université</label><input type="text" name="universityName" value="<%= settings.general.universityName %>"></div>
+    </div>
+    <div class="fr">
+      <div class="fg"><label>Email de contact</label><input type="text" name="contactEmail" value="<%= settings.general.contactEmail %>"></div>
+      <div class="fg"><label>Téléphone</label><input type="text" name="contactPhone" value="<%= settings.general.contactPhone %>"></div>
+    </div>
+    <div class="fr">
+      <div class="fg"><label>Adresse</label><input type="text" name="address" value="<%= settings.general.address %>"></div>
+      <div class="fg"><label>URL du site institutionnel</label><input type="text" name="websiteUrl" value="<%= settings.general.websiteUrl %>"></div>
+    </div>
+  </div>
+
+  <div class="fc">
+    <h3>Page d'Accueil : Le Hook (Les Chiffres)</h3>
+    <div class="fr">
+      <div class="fg"><label>Texte du Badge</label><input type="text" name="hookBadge" value="<%= settings.homeHook.badgeText %>"></div>
+      <div class="fg"><label>Titre Principal</label><input type="text" name="hookTitle" value="<%= settings.homeHook.title %>"></div>
+    </div>
+    <div class="fg"><label>Sous-titre</label><textarea name="hookSubtitle" style="min-height: 60px;"><%= settings.homeHook.subtitle %></textarea></div>
+  </div>
+
+  <div class="fc">
+    <h3>Page d'Accueil : Le Mot du Directeur</h3>
+    <div class="fr">
+      <div class="fg"><label>Nom du Directeur</label><input type="text" name="dirName" value="<%= settings.director.name %>"></div>
+      <div class="fg"><label>Titre Principal</label><input type="text" name="dirTitle" value="<%= settings.director.title %>"></div>
+    </div>
+    <div class="fg"><label>Sous-titre / Fonction</label><input type="text" name="dirSubtitle" value="<%= settings.director.subtitle %>"></div>
+    <div class="fg"><label>Le Mot / La Citation</label><textarea name="dirQuote" style="min-height: 120px;"><%= settings.director.quote %></textarea></div>
+    <div class="fg"><label>URL de la Photo du Directeur</label><input type="text" name="dirPhoto" value="<%= settings.director.photoUrl %>" placeholder="Ex: https://... (Laissez vide pour l'avatar par défaut)"></div>
+  </div>
+
+  <div class="fc">
+    <h3>Section : Qui sommes-nous</h3>
+    <div class="fg"><label>Titre de la section</label><input type="text" name="quiTitle" value="<%= settings.quiSommesNous.title %>"></div>
+    <div class="fg"><label>Description générale</label><textarea name="quiDesc" style="min-height: 80px;"><%= settings.quiSommesNous.description %></textarea></div>
+    <div class="fr">
+      <div class="fg"><label>Notre Vision</label><textarea name="quiVision" style="min-height: 80px;"><%= settings.quiSommesNous.vision %></textarea></div>
+      <div class="fg"><label>Notre Mission</label><textarea name="quiMission" style="min-height: 80px;"><%= settings.quiSommesNous.mission %></textarea></div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px; margin-bottom:48px;">
+    <button type="submit" class="btn-p">Sauvegarder les Paramètres</button>
+  </div>
+
+</form>

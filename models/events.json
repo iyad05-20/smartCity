@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "day": "18",
+    "month": "Juil",
+    "title": "Forum International Smart City Marrakech 2025",
+    "description": "Conférence internationale réunissant experts, collectivités et industriels autour des enjeux de la ville intelligente au Maghreb. Programme complet sur demande.",
+    "time": "09:00–18:00",
+    "location": "Palais des Congrès, Marrakech",
+    "type": "Conférence"
+  },
+  {
+    "id": 2,
+    "day": "05",
+    "month": "Aoû",
+    "title": "Atelier IoT & Infrastructure Urbaine",
+    "description": "Session pratique sur le déploiement de capteurs LoRaWAN en milieu urbain. Places limitées à 15 participants.",
+    "time": "09:00–17:00",
+    "location": "Centre Smart City, UCA",
+    "type": "Atelier"
+  },
+  {
+    "id": 3,
+    "day": "20",
+    "month": "Sep",
+    "title": "Séminaire : Données Urbaines & IA au Maroc",
+    "description": "Table ronde et présentations sur l'utilisation de l'intelligence artificielle pour la gestion des données urbaines.",
+    "time": "14:00–18:00",
+    "location": "ENSA Marrakech",
+    "type": "Séminaire"
+  }
+]

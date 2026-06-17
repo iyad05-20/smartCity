@@ -1,0 +1,74 @@
+<div class="at">Mise en avant (Accueil)</div>
+<div class="as">Configurez les 4 emplacements de la page d'accueil. Vous pouvez choisir le type de contenu pour chaque emplacement.</div>
+
+<form action="/admin/selection" method="POST">
+  <% const safeSlots = selection.slots || []; %>
+  <% for(let i=0; i<4; i++) { %>
+    <% const slot = safeSlots[i] || { active: false, type: 'projects', itemTitle: '' }; %>
+    <div class="fc">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--bd);padding-bottom:10px">
+        <h3 style="margin:0;border:none;padding:0">Emplacement <%= i + 1 %></h3>
+        <input type="hidden" name="slot<%= i %>_active" id="slot<%= i %>_active" value="<%= slot.active ? 'true' : 'false' %>">
+        <button type="button" class="tgl <%= slot.active ? 'on' : '' %>" onclick="this.classList.toggle('on'); document.getElementById('slot<%= i %>_active').value = this.classList.contains('on') ? 'true' : 'false'"></button>
+      </div>
+      <div class="fr">
+        <div class="fg">
+          <label>Type de contenu</label>
+          <select name="slot<%= i %>_type" id="slot<%= i %>_type" onchange="updateItems(<%= i %>)">
+            <option value="projects" <%= slot.type === 'projects' ? 'selected' : '' %>>Projet Star</option>
+            <option value="events" <%= slot.type === 'events' ? 'selected' : '' %>>Événement Star</option>
+            <option value="publications" <%= slot.type === 'publications' ? 'selected' : '' %>>Publication Star</option>
+            <option value="formations" <%= slot.type === 'formations' ? 'selected' : '' %>>Formation Star</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Élément sélectionné</label>
+          <select name="slot<%= i %>_item" id="slot<%= i %>_item" data-selected="<%= slot.itemTitle %>">
+            <!-- Options populated by JS -->
+          </select>
+        </div>
+      </div>
+    </div>
+  <% } %>
+
+  <div style="margin-top:24px;margin-bottom:40px">
+    <button type="submit" class="btn-p">Enregistrer l'organisation de l'accueil</button>
+  </div>
+</form>
+
+<script>
+  // Data passed from server
+  const dataMap = {
+    projects: <%- JSON.stringify(projects.map(p => p.title)) %>,
+    events: <%- JSON.stringify(events.map(e => e.title)) %>,
+    publications: <%- JSON.stringify(publications.map(p => p.title)) %>,
+    formations: <%- JSON.stringify(formations.map(f => f.title)) %>
+  };
+
+  function updateItems(slotIndex) {
+    const typeSelect = document.getElementById(`slot${slotIndex}_type`);
+    const itemSelect = document.getElementById(`slot${slotIndex}_item`);
+    const type = typeSelect.value;
+    const items = dataMap[type] || [];
+    const currentlySelected = itemSelect.getAttribute('data-selected');
+
+    // Clear current options
+    itemSelect.innerHTML = '<option value="">-- Aucun --</option>';
+
+    // Add new options
+    items.forEach(itemTitle => {
+      const option = document.createElement('option');
+      option.value = itemTitle;
+      option.textContent = itemTitle;
+      if (itemTitle === currentlySelected) {
+        option.selected = true;
+      }
+      itemSelect.appendChild(option);
+    });
+  }
+
+  // Initialize all slots
+  for(let i=0; i<4; i++) {
+    updateItems(i);
+  }
+</script>

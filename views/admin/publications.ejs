@@ -1,0 +1,46 @@
+<div class="at">Publications</div>
+<div class="as">Gérer les documents et rapports</div>
+<div class="fc">
+  <form method="POST" action="/admin/publications/add">
+    <h3>Ajouter une publication</h3>
+    <div class="fr">
+      <div class="fg"><label>Titre</label><input type="text" name="title" placeholder="Titre de la publication" required></div>
+      <div class="fg"><label>Année</label><input type="text" name="year" placeholder="2025"></div>
+    </div>
+    <div class="fr">
+      <div class="fg">
+        <label>Type</label>
+        <select name="type">
+          <option value="Article">Article</option>
+          <option value="Rapport technique">Rapport technique</option>
+          <option value="Guide">Guide</option>
+        </select>
+      </div>
+      <div class="fg"><label>Auteurs</label><input type="text" name="authors" placeholder="Noms des auteurs..."></div>
+    </div>
+    <div class="fg"><label>Description courte</label><textarea name="description" placeholder="Description de la publication..."></textarea></div>
+    <div class="fg"><label>URL du fichier PDF</label><input type="text" name="url_pdf" placeholder="/pdf/rapport2025.pdf"></div>
+    <button type="submit" class="btn-p">Enregistrer</button>
+  </form>
+</div>
+<div class="a-table">
+  <div class="ath"><h3>Publications existantes</h3></div>
+  <table>
+    <tr><th>Titre</th><th>Type</th><th>Année</th><th>Actions</th></tr>
+    <% publications.forEach(p => { %>
+      <tr>
+        <td><%= p.title %></td>
+        <td><%= p.type %></td>
+        <td><%= p.year %></td>
+        <td>
+          <div style="display:flex;gap:5px">
+            <button class="ab abe" title="Modifier (Bientôt disponible)">✏</button>
+            <form method="POST" action="/admin/publications/delete/<%= p.id %>" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer définitivement cette publication ?');" style="margin:0">
+              <button type="submit" class="ab abd" title="Supprimer">✕</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+</div>

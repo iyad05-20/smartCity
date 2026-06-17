@@ -1,0 +1,13 @@
+<div class="ph"><div class="ph-in"><div class="hbadge">Agenda</div><h1 style="font-size:clamp(24px,3vw,42px);font-weight:700;color:white;margin-top:12px">Événements</h1></div></div>
+<div style="padding:48px 1.5rem;min-height:calc(100vh - 200px);background:var(--cr)"><div style="max-width:1200px;margin:0 auto"><div class="ev-list">
+  <% events.forEach(ev => { %>
+    <div class="ev-it">
+      <div class="ev-date"><div class="ev-day"><%= ev.day %></div><div class="ev-mo"><%= ev.month %></div></div>
+      <div class="ev-inf">
+        <h3><%= ev.title %></h3>
+        <p><%= ev.type %>. <%= ev.time %> · <%= ev.location %>.</p>
+      </div>
+      <span class="ev-tag"><%= ev.type %></span>
+    </div>
+  <% }) %>
+</div></div></div>

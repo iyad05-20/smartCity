@@ -1,0 +1,15 @@
+axes du centres(position acceuil- -projets);déjà dans cahier de charges
+ajouts des 3 langues
+formulaier dinscription
+decouvrire le projet->a eliminer 
+la voision/ la mission ... qui somme nous in top bar for details---- before chiffres preview of qui somme nous with en savoir plus button .
+publication_ publier des doc par annees
+chiffres; membres, nbr de projets, nbr evenemenet, partenaire
+projets/formations/publications  redirection vers leurs pages
+axes -> redirection vers preview acceuil->redirection page directe 
+
+
+compte admin:
+page admin separe, 
+events a gere depuis ici, titre desc date photo
+choix des chiffre a afficher

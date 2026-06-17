@@ -1,0 +1,34 @@
+<div class="at">Tableau de bord</div>
+<div class="as">Bienvenue dans l'administration du Centre Smart City</div>
+<div class="sr">
+  <div class="sb"><div class="n"><%= projects.length %></div><div class="l">Projets actifs</div></div>
+  <div class="sb"><div class="n"><%= publications.length %></div><div class="l">Publications</div></div>
+  <div class="sb"><div class="n"><%= events.length %></div><div class="l">Événements</div></div>
+  <div class="sb"><div class="n"><%= formations.length %></div><div class="l">Formations</div></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+  <div class="a-table">
+    <div class="ath">
+      <h3>Derniers événements</h3>
+      <a href="/admin/events" class="ab abe" style="text-decoration:none">+ Ajouter</a>
+    </div>
+    <table>
+      <tr><th>Titre</th><th>Date</th></tr>
+      <% events.slice(0,2).forEach(ev => { %>
+        <tr><td><%= ev.title %></td><td><%= ev.day %> <%= ev.month %></td></tr>
+      <% }) %>
+    </table>
+  </div>
+  <div class="a-table">
+    <div class="ath">
+      <h3>Publications récentes</h3>
+      <a href="/admin/publications" class="ab abe" style="text-decoration:none">+ Ajouter</a>
+    </div>
+    <table>
+      <tr><th>Document</th><th>Année</th></tr>
+      <% publications.slice(0,2).forEach(pub => { %>
+        <tr><td><%= pub.title %></td><td><%= pub.year %></td></tr>
+      <% }) %>
+    </table>
+  </div>
+</div>

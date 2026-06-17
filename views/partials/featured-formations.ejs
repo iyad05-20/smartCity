@@ -1,0 +1,23 @@
+<div class="events-fs" style="background:<%= index % 2 === 0 ? 'var(--wh)' : 'var(--cr)' %>;">
+  <div class="fs-inner">
+    <div class="sh-row rv">
+      <div><div class="sh-lbl">Pédagogie & Expertise</div><div class="sh-title">La Formation Star</div><div class="sh-sub">Développez vos compétences avec nos programmes spécialisés.</div></div>
+      <a href="/formations" class="btn-s">Voir toutes les formations</a>
+    </div>
+    <div class="ev-list rv">
+      <% if (data) { %>
+        <a href="/formations" class="ev-it" style="border-left: 4px solid var(--br);align-items:center;">
+          <div class="ev-date" style="background:rgba(200,132,42,.1);color:var(--br)"><svg style="width:32px;height:32px;fill:currentColor;display:block;margin:0 auto" viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg></div>
+          <div class="ev-inf">
+            <h3 style="font-size:22px"><%= data.title %></h3>
+            <p style="font-size:16px"><%= data.description %></p>
+            <div class="ev-meta"><span>⏳ Durée: <%= data.duration %></span><span>🎓 Niveau: <%= data.level %></span></div>
+          </div>
+          <span class="ev-tag" style="font-size:13px"><%= data.type || 'Formation' %></span>
+        </a>
+      <% } else { %>
+        <div style="padding:40px;text-align:center;color:var(--gy)">Aucune formation sélectionnée.</div>
+      <% } %>
+    </div>
+  </div>
+</div>

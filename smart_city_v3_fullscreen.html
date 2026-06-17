@@ -1,0 +1,933 @@
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--br:#c8842a;--br-d:#a06820;--br-l:#f5e6cc;--br-ll:#fdf6eb;--dk:#1a1a1a;--dk2:#2d2010;--wh:#fff;--cr:#faf7f2;--gy:#5f5e5a;--bd:#e8e0d0}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--cr);color:var(--dk);overflow-x:hidden}
+
+/* PRELOADER */
+#pl{position:fixed;inset:0;background:var(--dk);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .7s}
+#pl.out{opacity:0;pointer-events:none}
+.pl-box{width:68px;height:68px;background:var(--br);border-radius:14px;display:flex;align-items:center;justify-content:center;animation:ppulse 1.2s ease-in-out infinite;margin-bottom:20px}
+.pl-box svg{width:36px;height:36px;fill:white}
+@keyframes ppulse{0%,100%{transform:scale(1)}50%{transform:scale(1.09)}}
+.pl-b{width:160px;height:3px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+.pl-f{height:100%;background:var(--br);animation:pfill 1.7s ease-out forwards}
+@keyframes pfill{from{width:0}to{width:100%}}
+.pl-t{color:rgba(255,255,255,.35);font-size:11px;margin-top:12px;letter-spacing:2px;text-transform:uppercase}
+
+/* SCROLL PROG */
+#spb{position:fixed;top:0;left:0;height:3px;background:var(--br);z-index:600;transition:width .08s linear}
+
+/* TOPBAR */
+.topbar{background:var(--dk);padding:7px 1.5rem;font-size:12px;border-bottom:1px solid rgba(255,255,255,.05)}
+.tb-in{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.tb-l{display:flex;gap:18px}
+.tb-l a,.tb-r a{color:rgba(255,255,255,.55);text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .2s;font-size:12px;cursor:pointer}
+.tb-l a:hover,.tb-r a:hover{color:var(--br)}
+.tb-r{display:flex;gap:14px;align-items:center}
+
+/* NAV */
+nav{background:var(--wh);border-bottom:2.5px solid var(--br);position:sticky;top:0;z-index:500;box-shadow:0 2px 14px rgba(200,132,42,.1)}
+.nav-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:66px}
+.nlogo{display:flex;align-items:center;gap:10px;text-decoration:none;cursor:pointer}
+.nlogo-box{width:42px;height:42px;background:var(--br);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nlogo-box svg{width:24px;height:24px;fill:white}
+.nlogo-txt strong{font-size:16px;font-weight:700;color:var(--br);display:block;line-height:1.2}
+.nlogo-txt span{font-size:11px;color:var(--gy)}
+.nlinks{display:flex}
+.nlinks a{padding:0 13px;height:66px;display:flex;align-items:center;font-size:13.5px;color:var(--dk);text-decoration:none;border-bottom:2.5px solid transparent;transition:all .2s;font-weight:500;cursor:pointer}
+.nlinks a:hover,.nlinks a.act{color:var(--br);border-bottom-color:var(--br)}
+.lbs{display:flex;gap:4px}
+.lb{background:none;border:1px solid var(--bd);border-radius:3px;padding:4px 9px;font-size:11.5px;cursor:pointer;color:var(--gy);transition:all .2s;font-weight:600}
+.lb.on{background:var(--br);color:white;border-color:var(--br)}
+.lb:hover:not(.on){border-color:var(--br);color:var(--br)}
+
+/* PAGES */
+.page{display:none}.page.on{display:block}
+
+/* ===== HERO SLIDER ===== */
+.hero-slider{position:relative;height:calc(100vh - 69px);min-height:500px;overflow:hidden;background:var(--dk)}
+
+/* Slides */
+.slides{display:flex;height:100%;transition:transform .7s cubic-bezier(.77,0,.175,1)}
+.slide{min-width:100%;height:100%;position:relative;display:flex;align-items:center;overflow:hidden}
+
+/* BG image layer */
+.slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 8s ease;transform:scale(1.04)}
+.slide.act-slide .slide-bg{transform:scale(1)}
+.slide-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(26,26,26,.92) 0%,rgba(26,26,26,.75) 40%,rgba(26,26,26,.3) 100%)}
+
+/* Slide content */
+.slide-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 1.5rem;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.slide-text{transform:translateX(-30px);opacity:0;transition:all .65s .2s}
+.slide.act-slide .slide-text{transform:none;opacity:1}
+.slide-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(200,132,42,.18);border:1px solid rgba(200,132,42,.35);color:var(--br);padding:5px 14px;border-radius:20px;font-size:11.5px;font-weight:700;margin-bottom:18px;letter-spacing:.5px}
+.slide h1{font-size:clamp(22px,3.2vw,44px);font-weight:700;color:white;line-height:1.15;margin-bottom:14px}
+.slide h1 em{color:var(--br);font-style:normal}
+.slide p{font-size:15px;color:rgba(255,255,255,.7);line-height:1.75;margin-bottom:26px;max-width:480px}
+.slide-cta{display:flex;gap:10px;flex-wrap:wrap}
+
+/* Announce card (right side) */
+.slide-card{transform:translateX(30px);opacity:0;transition:all .65s .35s;background:rgba(255,255,255,.96);border-radius:10px;padding:28px;max-width:380px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.slide.act-slide .slide-card{transform:none;opacity:1}
+.sc-tag{font-size:10.5px;font-weight:700;letter-spacing:1.5px;color:var(--br);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.sc-tag::before{content:'';width:20px;height:2px;background:var(--br);display:inline-block}
+.slide-card h3{font-size:17px;font-weight:700;color:var(--dk);margin-bottom:10px;line-height:1.4}
+.slide-card p{font-size:13px;color:var(--gy);line-height:1.7;margin-bottom:16px}
+.slide-card .date{font-size:12px;color:var(--br);font-weight:700;display:flex;align-items:center;gap:5px}
+.btn-lire{background:var(--br);color:white;border:none;padding:10px 20px;border-radius:4px;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .2s}
+.btn-lire:hover{background:var(--br-d)}
+
+/* Slider controls */
+.slider-dots{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10}
+.dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.35);cursor:pointer;transition:all .3s;border:none}
+.dot.on{background:var(--br);width:28px;border-radius:5px}
+.slider-arr{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:white;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:18px}
+.slider-arr:hover{background:var(--br);border-color:var(--br)}
+#arr-l{left:20px}#arr-r{right:20px}
+
+/* ===== FULL SECTIONS (one-per-scroll) ===== */
+.fs{min-height:100vh;display:flex;align-items:center;padding:0}
+.fs-inner{max-width:1200px;margin:0 auto;padding:80px 1.5rem;width:100%}
+
+/* CHIFFRES */
+.chiffres-fs{background:var(--dk);min-height:100vh;display:flex;align-items:center;padding:0}
+.ch-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(200,132,42,.12);border-radius:10px;overflow:hidden;margin-top:48px}
+.ch-it{background:var(--dk);padding:52px 24px;text-align:center;transition:background .25s}
+.ch-it:hover{background:#222}
+.ch-ico{font-size:28px;color:rgba(200,132,42,.4);margin-bottom:14px}
+.ch-ico svg{width:32px;height:32px;fill:rgba(200,132,42,.4)}
+.ch-n{font-size:64px;font-weight:700;color:var(--br);line-height:1}
+.ch-s{font-size:32px}
+.ch-l{font-size:13px;color:rgba(255,255,255,.45);margin-top:10px;font-weight:500}
+
+/* DIRECTEUR */
+.dir-fs{min-height:100vh;display:flex;align-items:center;background:var(--wh);padding:0}
+.dir-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:100vh}
+.dir-img-side{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--dk) 0%,var(--dk2) 100%);display:flex;align-items:center;justify-content:center}
+.dir-img-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,132,42,.12) 0%,transparent 60%)}
+.dir-img-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px}
+.dir-portrait{width:200px;height:200px;border-radius:50%;background:linear-gradient(135deg,var(--br-l),var(--bd));border:4px solid var(--br);display:flex;align-items:center;justify-content:center;margin-bottom:24px;font-size:72px;color:var(--br);font-weight:700;flex-shrink:0}
+.dir-portrait-label{color:rgba(255,255,255,.4);font-size:12px;letter-spacing:2px;text-transform:uppercase;text-align:center}
+.dir-deco{position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to top,rgba(200,132,42,.08),transparent)}
+/* vertical uca-like stripe */
+.dir-stripe{position:absolute;top:0;right:0;width:4px;height:100%;background:var(--br)}
+.dir-text-side{padding:80px 64px;display:flex;flex-direction:column;justify-content:center}
+.eyebrow{font-size:10.5px;font-weight:700;letter-spacing:2px;color:var(--br);text-transform:uppercase;margin-bottom:12px}
+.big-quote{font-size:72px;color:var(--br-l);font-weight:900;line-height:.6;margin-bottom:12px;font-family:Georgia,serif}
+.dir-quote-text{font-size:16px;color:var(--gy);line-height:1.85;font-style:italic;margin-bottom:28px;border-left:3px solid var(--br);padding-left:20px}
+.dir-sig{display:flex;align-items:center;gap:16px;padding-top:24px;border-top:1px solid var(--bd)}
+.dir-av{width:56px;height:56px;border-radius:50%;background:var(--br);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:white;flex-shrink:0}
+.dir-sig-txt strong{display:block;font-size:15px;font-weight:700;color:var(--dk)}
+.dir-sig-txt span{font-size:12.5px;color:var(--gy)}
+
+/* QUI SOMMES NOUS */
+.qui-fs{min-height:100vh;display:flex;align-items:center;background:var(--cr);padding:0}
+.qui-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.qui-left{}
+.qui-title{font-size:clamp(28px,3.5vw,48px);font-weight:700;color:var(--dk);line-height:1.15;margin-bottom:20px}
+.qui-title em{color:var(--br);font-style:normal}
+.qui-desc{font-size:15.5px;color:var(--gy);line-height:1.8;margin-bottom:32px}
+.vm-cards{display:flex;flex-direction:column;gap:16px;margin-bottom:32px}
+.vm-card{background:var(--wh);border:1px solid var(--bd);border-left:3px solid var(--br);border-radius:0 8px 8px 0;padding:18px 22px}
+.vm-card h4{font-size:10.5px;font-weight:700;letter-spacing:1.5px;color:var(--br);text-transform:uppercase;margin-bottom:6px}
+.vm-card p{font-size:14px;color:var(--dk);line-height:1.65}
+.val-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px}
+.vtag{background:var(--br-l);color:var(--br-d);padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700}
+.qui-right{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.qi-box{border-radius:10px;padding:28px;display:flex;flex-direction:column;gap:10px;transition:transform .3s}
+.qi-box:hover{transform:translateY(-4px)}
+.qi-box.dark{background:var(--dk);color:white}
+.qi-box.orange{background:var(--br);color:white}
+.qi-box.light{background:var(--wh);border:1px solid var(--bd)}
+.qi-box.cream{background:var(--br-l);border:1px solid rgba(200,132,42,.2)}
+.qi-box svg{width:28px;height:28px}
+.qi-box.dark svg,.qi-box.orange svg{fill:rgba(255,255,255,.7)}
+.qi-box.light svg,.qi-box.cream svg{fill:var(--br)}
+.qi-box h3{font-size:15px;font-weight:700;line-height:1.3}
+.qi-box.light h3,.qi-box.cream h3{color:var(--dk)}
+.qi-box p{font-size:13px;line-height:1.6;opacity:.8}
+.qi-box.light p,.qi-box.cream p{color:var(--gy);opacity:1}
+.qi-box span{font-size:28px;font-weight:700;margin-bottom:4px}
+.qi-box.dark span,.qi-box.orange span{color:rgba(255,255,255,.9)}
+.qi-box.light span,.qi-box.cream span{color:var(--br)}
+
+/* AXES */
+.axes-fs{min-height:100vh;display:flex;align-items:center;background:var(--wh);padding:0}
+.axes-grid-big{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:48px}
+.axe-card-big{background:var(--cr);border:1px solid var(--bd);border-radius:10px;padding:32px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;border-top:3px solid transparent}
+.axe-card-big::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,132,42,.04) 0%,transparent 60%);opacity:0;transition:opacity .3s}
+.axe-card-big:hover{border-top-color:var(--br);transform:translateY(-4px);box-shadow:0 14px 40px rgba(200,132,42,.1)}
+.axe-card-big:hover::before{opacity:1}
+.axe-num{font-size:48px;font-weight:900;color:rgba(200,132,42,.1);position:absolute;top:12px;right:20px;line-height:1;font-family:Georgia,serif}
+.axe-ico-big{width:52px;height:52px;background:var(--br-l);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.axe-ico-big svg{width:26px;height:26px;fill:var(--br)}
+.axe-card-big h3{font-size:18px;font-weight:700;color:var(--dk);margin-bottom:10px}
+.axe-card-big p{font-size:14px;color:var(--gy);line-height:1.7}
+.axe-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}
+.atag{background:var(--wh);border:1px solid var(--bd);padding:3px 10px;border-radius:20px;font-size:11px;color:var(--gy);font-weight:600}
+.axe-arrow{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;color:var(--br);margin-top:16px}
+
+/* SHORTCUTS */
+.shortcuts-fs{min-height:80vh;display:flex;align-items:center;background:var(--dk);padding:0}
+.sc-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+.sc-it{padding:60px 48px;border-right:1px solid rgba(255,255,255,.06);cursor:pointer;transition:background .25s;min-height:80vh;display:flex;flex-direction:column;justify-content:center}
+.sc-it:last-child{border-right:none}
+.sc-it:hover{background:rgba(200,132,42,.07)}
+.sc-it svg{width:36px;height:36px;fill:var(--br);margin-bottom:20px}
+.sc-it h3{color:white;font-size:22px;font-weight:700;margin-bottom:10px}
+.sc-it p{font-size:14px;color:rgba(255,255,255,.45);line-height:1.7;max-width:280px}
+.sc-lnk{margin-top:24px;font-size:13px;color:var(--br);font-weight:700;display:flex;align-items:center;gap:5px}
+.sc-lnk svg{width:14px;height:14px;fill:currentColor}
+
+/* EVENTS */
+.events-fs{min-height:100vh;display:flex;align-items:center;background:var(--cr);padding:0}
+.ev-list{display:flex;flex-direction:column;gap:16px;margin-top:48px}
+.ev-it{background:var(--wh);border:1px solid var(--bd);border-radius:10px;padding:24px 28px;display:flex;gap:24px;align-items:flex-start;transition:all .25s;cursor:pointer}
+.ev-it:hover{border-color:var(--br);transform:translateX(4px);box-shadow:4px 0 0 var(--br)}
+.ev-date{min-width:64px;text-align:center;background:var(--br-l);border-radius:8px;padding:12px 8px}
+.ev-day{font-size:34px;font-weight:700;color:var(--br);line-height:1}
+.ev-mo{font-size:11px;font-weight:700;color:var(--gy);text-transform:uppercase;margin-top:3px}
+.ev-inf{flex:1}
+.ev-inf h3{font-size:17px;font-weight:700;color:var(--dk);margin-bottom:6px}
+.ev-inf p{font-size:14px;color:var(--gy);line-height:1.6}
+.ev-meta{display:flex;gap:14px;margin-top:10px;font-size:12px;color:var(--gy)}
+.ev-tag{background:var(--br-l);color:var(--br-d);padding:3px 12px;border-radius:20px;font-size:11.5px;font-weight:700;align-self:flex-start;white-space:nowrap}
+
+/* SECTION HEADS */
+.sh-lbl{font-size:10.5px;font-weight:700;letter-spacing:2px;color:var(--br);text-transform:uppercase;margin-bottom:8px}
+.sh-title{font-size:clamp(26px,3.5vw,42px);font-weight:700;color:var(--dk)}
+.sh-title.white{color:white}
+.sh-sub{font-size:15.5px;color:var(--gy);line-height:1.7;max-width:600px;margin-top:10px}
+.sh-sub.white{color:rgba(255,255,255,.55)}
+.sh-row{display:flex;justify-content:space-between;align-items:flex-end}
+
+/* BTNS */
+.btn-p{background:var(--br);color:white;border:none;padding:12px 26px;border-radius:4px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.btn-p:hover{background:var(--br-d);transform:translateY(-1px)}
+.btn-o{background:none;color:white;border:1.5px solid rgba(255,255,255,.3);padding:12px 26px;border-radius:4px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.btn-o:hover{border-color:var(--br);color:var(--br)}
+.btn-s{background:none;border:1.5px solid var(--br);color:var(--br);padding:10px 22px;border-radius:4px;font-size:13.5px;font-weight:600;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.btn-s:hover{background:var(--br);color:white}
+
+/* FOOTER */
+footer{background:var(--dk);color:rgba(255,255,255,.55);padding:60px 1.5rem 28px}
+.ft-in{max-width:1200px;margin:0 auto}
+.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.ft-brand h3{color:var(--br);font-size:18px;font-weight:700;margin-bottom:10px}
+.ft-brand p{font-size:13px;line-height:1.75;max-width:270px}
+.ft-col h4{color:white;font-size:13px;font-weight:700;margin-bottom:16px}
+.ft-col a{display:block;font-size:13px;color:rgba(255,255,255,.45);text-decoration:none;margin-bottom:9px;cursor:pointer;transition:color .2s}
+.ft-col a:hover{color:var(--br)}
+.ft-bot{border-top:1px solid rgba(255,255,255,.08);padding-top:22px;display:flex;justify-content:space-between;font-size:12px}
+.ft-bot a{color:rgba(255,255,255,.3);text-decoration:none}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease}
+.rv.vis{opacity:1;transform:none}
+.rv-l{opacity:0;transform:translateX(-32px);transition:opacity .7s ease,transform .7s ease}
+.rv-l.vis{opacity:1;transform:none}
+.rv-r{opacity:0;transform:translateX(32px);transition:opacity .7s ease,transform .7s ease}
+.rv-r.vis{opacity:1;transform:none}
+
+/* OTHER PAGES */
+.ph{background:linear-gradient(135deg,var(--dk),var(--dk2));padding:60px 1.5rem;color:white}
+.ph-in{max-width:1200px;margin:0 auto}
+.hbadge{display:inline-flex;align-items:center;gap:6px;background:rgba(200,132,42,.18);border:1px solid rgba(200,132,42,.3);color:var(--br);padding:5px 14px;border-radius:20px;font-size:11.5px;font-weight:700;margin-bottom:14px;letter-spacing:.5px}
+
+/* Axes page */
+.axe-row{background:var(--wh);border:1px solid var(--bd);border-radius:8px;overflow:hidden;display:grid;grid-template-columns:220px 1fr;margin-bottom:20px}
+.axe-rl{padding:32px 24px;display:flex;flex-direction:column;justify-content:center}
+.axe-rl.odd{background:var(--br)}.axe-rl.even{background:var(--dk2);border-right:4px solid var(--br)}
+.axe-rl svg{width:32px;height:32px;margin-bottom:12px}
+.axe-rl.odd svg{fill:rgba(255,255,255,.8)}.axe-rl.even svg{fill:var(--br)}
+.axe-rl h2{font-size:16px;font-weight:700;color:white}.axe-rl h3{font-size:14px;color:rgba(255,255,255,.8);font-weight:600;margin-top:4px}
+.axe-rr{padding:28px}
+.axe-rr p{font-size:14.5px;color:var(--gy);line-height:1.75;margin-bottom:14px}
+.tags{display:flex;gap:8px;flex-wrap:wrap}
+.tag{display:inline-flex;align-items:center;background:var(--br-l);color:var(--br-d);padding:3px 11px;border-radius:20px;font-size:11px;font-weight:700}
+
+/* Projets */
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+.proj-c{background:var(--wh);border:1px solid var(--bd);border-radius:8px;overflow:hidden;transition:box-shadow .2s}
+.proj-c:hover{box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.proj-img{height:150px;background:linear-gradient(135deg,var(--br-l),var(--bd));display:flex;align-items:center;justify-content:center}
+.proj-img svg{width:52px;height:52px;fill:var(--br);opacity:.65}
+.proj-b{padding:18px}
+.proj-axe{font-size:10.5px;font-weight:700;color:var(--br);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.proj-b h3{font-size:14.5px;font-weight:700;margin-bottom:6px;color:var(--dk)}
+.proj-b p{font-size:13px;color:var(--gy);line-height:1.5}
+.proj-meta{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--bd)}
+.bc{background:#e8f5e9;color:#2e7d32;font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700}
+.bf{background:#f3e5f5;color:#7b1fa2;font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700}
+
+/* Pub */
+.pub-list{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.pub-it{background:var(--wh);border:1px solid var(--bd);border-radius:8px;padding:14px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:border-color .2s}
+.pub-it:hover{border-color:var(--br)}
+.pub-it svg{width:28px;height:28px;fill:var(--br);flex-shrink:0}
+.pub-it h3{font-size:14px;font-weight:600;color:var(--dk);margin-bottom:3px}
+.pub-it p{font-size:12px;color:var(--gy)}
+.pub-dl{margin-left:auto;flex-shrink:0}
+.pub-dl svg{width:20px;height:20px;fill:var(--bd);transition:fill .2s}
+.pub-it:hover .pub-dl svg{fill:var(--br)}
+.yf{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.yb{background:var(--wh);border:1px solid var(--bd);border-radius:20px;padding:5px 14px;font-size:13px;cursor:pointer;transition:all .2s;font-weight:500;color:var(--gy)}
+.yb.on{background:var(--br);color:white;border-color:var(--br)}
+
+/* Formations */
+.fm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+.fm-c{background:var(--wh);border:1px solid var(--bd);border-radius:8px;padding:24px;border-left:3px solid var(--br)}
+.fm-c h3{font-size:16px;font-weight:700;color:var(--dk);margin-bottom:8px}
+.fm-c p{font-size:13.5px;color:var(--gy);line-height:1.65}
+.fm-meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+.fmm{font-size:12px;color:var(--br);font-weight:600}
+
+/* ADMIN */
+.adm-w{display:flex;min-height:600px}
+.adm-s{width:230px;background:var(--dk);flex-shrink:0}
+.adm-sb{padding:18px 14px 12px;border-bottom:1px solid rgba(255,255,255,.07)}
+.adm-sb strong{color:var(--br);font-size:13px;display:block}
+.adm-sb span{color:rgba(255,255,255,.3);font-size:11px}
+.adm-nav{padding:10px 0}
+.adm-sec{padding:7px 14px 3px;font-size:10px;font-weight:700;color:rgba(255,255,255,.2);text-transform:uppercase;letter-spacing:1.5px;margin-top:6px}
+.al{display:flex;align-items:center;gap:9px;padding:9px 14px;font-size:13px;color:rgba(255,255,255,.5);cursor:pointer;transition:all .2s;border-left:2px solid transparent}
+.al:hover,.al.on{color:white;background:rgba(200,132,42,.1);border-left-color:var(--br)}
+.al svg{width:15px;height:15px;fill:currentColor;flex-shrink:0}
+.ac{flex:1;padding:28px;background:var(--cr);overflow:auto}
+.ap{display:none}.ap.on{display:block}
+.at{font-size:20px;font-weight:700;color:var(--dk);margin-bottom:4px}
+.as{font-size:13px;color:var(--gy);margin-bottom:24px}
+.sr{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.sb{background:var(--wh);border:1px solid var(--bd);border-radius:8px;padding:18px;border-top:3px solid var(--br)}
+.sb .n{font-size:30px;font-weight:700;color:var(--br)}
+.sb .l{font-size:12px;color:var(--gy);margin-top:3px;font-weight:500}
+.a-table{background:var(--wh);border:1px solid var(--bd);border-radius:8px;overflow:hidden;margin-bottom:20px}
+.ath{padding:14px 18px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}
+.ath h3{font-size:14.5px;font-weight:700;color:var(--dk)}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:9px 14px;font-size:11.5px;font-weight:700;color:var(--gy);text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--bd);background:var(--cr)}
+td{padding:11px 14px;font-size:13px;border-bottom:1px solid var(--bd);color:var(--dk)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--br-ll)}
+.ab{border:none;border-radius:4px;padding:5px 11px;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:3px}
+.abe{background:#e3f2fd;color:#1565c0}.abd{background:#ffebee;color:#c62828}
+.fc{background:var(--wh);border:1px solid var(--bd);border-radius:8px;padding:22px;margin-bottom:18px}
+.fc h3{font-size:14px;font-weight:700;color:var(--dk);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--bd)}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.fg label{font-size:11px;font-weight:700;color:var(--gy);text-transform:uppercase;letter-spacing:.5px}
+.fg input,.fg textarea,.fg select{border:1px solid var(--bd);border-radius:4px;padding:8px 11px;font-size:14px;font-family:inherit;transition:border .2s;background:var(--wh);color:var(--dk)}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--br);outline:none}
+.fg textarea{resize:vertical;min-height:80px}
+.ua{border:2px dashed var(--bd);border-radius:8px;padding:28px;text-align:center;cursor:pointer;background:var(--cr);transition:border-color .2s}
+.ua:hover{border-color:var(--br)}
+.ua svg{width:32px;height:32px;fill:var(--br);margin:0 auto 8px;display:block}
+.ua p{font-size:13px;color:var(--gy)}
+.cha{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.chac{background:var(--wh);border:1px solid var(--bd);border-radius:8px;padding:16px;display:flex;gap:14px;align-items:center}
+.chib{width:38px;height:38px;background:var(--br-l);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chib svg{width:18px;height:18px;fill:var(--br)}
+.tgl{width:40px;height:22px;background:var(--bd);border-radius:11px;position:relative;cursor:pointer;border:none;transition:background .2s;flex-shrink:0}
+.tgl.on{background:var(--br)}
+.tgl::after{content:'';width:16px;height:16px;background:white;border-radius:50%;position:absolute;top:3px;left:3px;transition:transform .2s}
+.tgl.on::after{transform:translateX(18px)}
+</style>
+
+<!-- PRELOADER -->
+<div id="pl">
+  <div class="pl-box"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/><path d="M3 12a9 9 0 0 0 9 9V3a9 9 0 0 0-9 9z" style="opacity:.4"/></svg></div>
+  <div class="pl-b"><div class="pl-f"></div></div>
+  <div class="pl-t">Centre Smart City · UCA</div>
+</div>
+
+<div id="spb"></div>
+
+<!-- PUB SITE -->
+<div id="pub">
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="tb-in">
+    <div class="tb-l">
+      <a><svg style="width:13px;height:13px;fill:currentColor;vertical-align:middle" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg> Marrakech, Maroc</a>
+      <a><svg style="width:13px;height:13px;fill:currentColor;vertical-align:middle" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg> smartcity@uca.ca.ma</a>
+      <a><svg style="width:13px;height:13px;fill:currentColor;vertical-align:middle" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg> +212 5XX-XXXXXX</a>
+    </div>
+    <div class="tb-r">
+      <a onclick="showPage('qui')"><svg style="width:13px;height:13px;fill:currentColor;vertical-align:middle" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg> Qui sommes-nous</a>
+      <span style="color:rgba(255,255,255,.12)">|</span>
+      <a onclick="showAdmin()"><svg style="width:13px;height:13px;fill:currentColor;vertical-align:middle" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/></svg> Admin</a>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-in">
+    <div class="nlogo" onclick="showPage('home')">
+      <div class="nlogo-box"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/><path d="M3 12a9 9 0 0 0 9 9V3a9 9 0 0 0-9 9z" style="opacity:.4"/></svg></div>
+      <div class="nlogo-txt"><strong>Centre Smart City</strong><span>Université Cadi Ayyad</span></div>
+    </div>
+    <div class="nlinks">
+      <a class="act" id="nl-home" onclick="showPage('home')">Accueil</a>
+      <a id="nl-axes" onclick="showPage('axes')">Axes</a>
+      <a id="nl-projets" onclick="showPage('projets')">Projets</a>
+      <a id="nl-formations" onclick="showPage('formations')">Formations</a>
+      <a id="nl-publications" onclick="showPage('publications')">Publications</a>
+      <a id="nl-events" onclick="showPage('events')">Événements</a>
+    </div>
+    <div class="lbs">
+      <button class="lb on" onclick="setLang(this)">FR</button>
+      <button class="lb" onclick="setLang(this)">EN</button>
+      <button class="lb" onclick="setLang(this)">AR</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HOME ===== -->
+<div id="page-home" class="page on">
+
+<!-- HERO SLIDER (annonces) -->
+<div class="hero-slider">
+  <div class="slides" id="slides">
+
+    <!-- Slide 1 -->
+    <div class="slide act-slide">
+      <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1600&q=80')"></div>
+      <div class="slide-overlay"></div>
+      <div class="slide-content">
+        <div class="slide-text">
+          <div class="slide-badge"><svg style="width:13px;height:13px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg> Centre Smart City · UCA</div>
+          <h1>La <em>ville de demain</em><br>se construit aujourd'hui</h1>
+          <p>Le Centre Smart City de l'Université Cadi Ayyad fédère la recherche, l'innovation et les partenariats pour des villes intelligentes, durables et inclusives au Maroc.</p>
+          <div class="slide-cta">
+            <button class="btn-p" onclick="showPage('projets')"><svg style="width:15px;height:15px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg> Explorer nos projets</button>
+            <button class="btn-o" onclick="showPage('axes')"><svg style="width:15px;height:15px;fill:currentColor" viewBox="0 0 24 24"><path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z"/></svg> Nos axes</button>
+          </div>
+        </div>
+        <div class="slide-card">
+          <div class="sc-tag">Bienvenue au Centre</div>
+          <h3>Centre Smart City de l'Université Cadi Ayyad</h3>
+          <p>Un espace d'excellence pluridisciplinaire dédié à la recherche appliquée et à l'innovation pour les villes intelligentes du Maroc et du Maghreb.</p>
+          <div class="date"><svg style="width:13px;height:13px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg> Marrakech, Maroc · uca.ca.ma</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&q=80')"></div>
+      <div class="slide-overlay"></div>
+      <div class="slide-content">
+        <div class="slide-text">
+          <div class="slide-badge"><svg style="width:13px;height:13px;fill:currentColor" viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2z"/></svg> Événement · 18 Juillet 2025</div>
+          <h1>Forum <em>International<br>Smart City</em> Marrakech</h1>
+          <p>Conférence internationale réunissant experts, collectivités et industriels autour des enjeux de la ville intelligente au Maghreb. Inscriptions ouvertes.</p>
+          <div class="slide-cta">
+            <button class="btn-p" onclick="showPage('events')"><svg style="width:15px;height:15px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg> En savoir plus</button>
+          </div>
+        </div>
+        <div class="slide-card">
+          <div class="sc-tag">Annonce · Événement</div>
+          <h3>Forum International Smart City Marrakech 2025</h3>
+          <p>Experts nationaux et internationaux, collectivités territoriales et acteurs industriels se réunissent pour 2 jours d'échanges et de conférences.</p>
+          <div class="date" style="margin-bottom:14px"><svg style="width:13px;height:13px;fill:currentColor" viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg> 18–19 Juillet 2025 · Palais des Congrès</div>
+          <button class="btn-lire" onclick="showPage('events')">Voir l'événement <svg style="width:13px;height:13px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600&q=80')"></div>
+      <div class="slide-overlay"></div>
+      <div class="slide-content">
+        <div class="slide-text">
+          <div class="slide-badge"><svg style="width:13px;height:13px;fill:currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6z"/></svg> Nouvelle publication · 2025</div>
+          <h1><em>Nouvelle publication</em><br>Smart Grid Marrakech</h1>
+          <p>Article de recherche : « Smart Grid Implementation in Moroccan Medium-Sized Cities: Challenges and Opportunities » — désormais disponible.</p>
+          <div class="slide-cta">
+            <button class="btn-p" onclick="showPage('publications')"><svg style="width:15px;height:15px;fill:currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg> Télécharger</button>
+            <button class="btn-o" onclick="showPage('publications')">Toutes les publications</button>
+          </div>
+        </div>
+        <div class="slide-card">
+          <div class="sc-tag">Publication · Recherche</div>
+          <h3>Smart Grid Implementation in Moroccan Medium-Sized Cities</h3>
+          <p>Benali, K., Outahadout, M. — Article de recherche · Énergie & Environnement · Revue internationale à comité de lecture.</p>
+          <div class="date" style="margin-bottom:14px"><svg style="width:13px;height:13px;fill:currentColor" viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg> Publié en Juin 2025</div>
+          <button class="btn-lire" onclick="showPage('publications')">Lire la publication <svg style="width:13px;height:13px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80')"></div>
+      <div class="slide-overlay"></div>
+      <div class="slide-content">
+        <div class="slide-text">
+          <div class="slide-badge"><svg style="width:13px;height:13px;fill:currentColor" viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9z"/></svg> Appel à candidatures · 2025–2026</div>
+          <h1>Programme de recherche<br><em>Smart City 2025–2026</em></h1>
+          <p>Le Centre Smart City UCA lance son appel à candidatures pour intégrer les équipes de recherche sur ses 4 axes stratégiques. Date limite : 30 Juin 2025.</p>
+          <div class="slide-cta">
+            <button class="btn-p"><svg style="width:15px;height:15px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg> Postuler</button>
+          </div>
+        </div>
+        <div class="slide-card">
+          <div class="sc-tag">Appel à candidatures</div>
+          <h3>Rejoignez les équipes de recherche du Centre Smart City</h3>
+          <p>Profils recherchés : doctorants, post-doctorants et chercheurs en IoT, énergie, mobilité ou gouvernance numérique.</p>
+          <div class="date" style="margin-bottom:14px"><svg style="width:13px;height:13px;fill:currentColor" viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg> Date limite : 30 Juin 2025</div>
+          <button class="btn-lire">Déposer candidature <svg style="width:13px;height:13px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /slides -->
+
+  <!-- Arrows -->
+  <button class="slider-arr" id="arr-l" onclick="prevSlide()">&#8249;</button>
+  <button class="slider-arr" id="arr-r" onclick="nextSlide()">&#8250;</button>
+
+  <!-- Dots -->
+  <div class="slider-dots">
+    <button class="dot on" onclick="goSlide(0)"></button>
+    <button class="dot" onclick="goSlide(1)"></button>
+    <button class="dot" onclick="goSlide(2)"></button>
+    <button class="dot" onclick="goSlide(3)"></button>
+  </div>
+</div><!-- /hero-slider -->
+
+<!-- CHIFFRES (full screen) -->
+<div class="chiffres-fs">
+  <div class="fs-inner" style="width:100%">
+    <div class="rv" style="text-align:center">
+      <div class="sh-lbl" style="color:rgba(200,132,42,.6)">Impact & Rayonnement</div>
+      <div class="sh-title white" style="font-size:clamp(26px,3.5vw,42px)">Le centre en chiffres</div>
+      <div class="sh-sub white" style="margin:10px auto 0;text-align:center">Des résultats concrets au service de l'innovation urbaine au Maroc</div>
+    </div>
+    <div class="ch-grid rv">
+      <div class="ch-it">
+        <div class="ch-ico"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div>
+        <div class="ch-n" data-t="47" data-s="+">0</div>
+        <div class="ch-l">Membres chercheurs</div>
+      </div>
+      <div class="ch-it">
+        <div class="ch-ico"><svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg></div>
+        <div class="ch-n" data-t="23">0</div>
+        <div class="ch-l">Projets de recherche</div>
+      </div>
+      <div class="ch-it">
+        <div class="ch-ico"><svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg></div>
+        <div class="ch-n" data-t="61">0</div>
+        <div class="ch-l">Événements organisés</div>
+      </div>
+      <div class="ch-it">
+        <div class="ch-ico"><svg viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12z"/></svg></div>
+        <div class="ch-n" data-t="18">0</div>
+        <div class="ch-l">Partenaires institutionnels</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MOT DU DIRECTEUR (full screen) -->
+<div class="dir-fs">
+  <div class="dir-grid" style="width:100%">
+    <div class="dir-img-side">
+      <div class="dir-img-overlay"></div>
+      <div class="dir-stripe"></div>
+      <div class="dir-img-placeholder">
+        <div style="text-align:center">
+          <div class="dir-portrait">D</div>
+          <div class="dir-portrait-label">Photo du Directeur<br>à insérer</div>
+        </div>
+        <div style="position:absolute;bottom:40px;left:40px;right:40px">
+          <div style="background:rgba(200,132,42,.12);border:1px solid rgba(200,132,42,.2);border-radius:8px;padding:20px">
+            <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(200,132,42,.7);text-transform:uppercase;margin-bottom:8px">Le Centre en bref</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.6)"><svg style="width:14px;height:14px;fill:var(--br);flex-shrink:0" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg> Fondé à la Cité de l'Innovation</div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.6)"><svg style="width:14px;height:14px;fill:var(--br);flex-shrink:0" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg> 4 axes stratégiques de recherche</div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.6)"><svg style="width:14px;height:14px;fill:var(--br);flex-shrink:0" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg> Partenariats public-privé actifs</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dir-text-side rv-r">
+      <div class="eyebrow">Mot du Directeur</div>
+      <div class="big-quote">"</div>
+      <div class="dir-quote-text">Le Centre Smart City de l'UCA s'inscrit dans une dynamique nationale de transformation digitale des territoires. Notre ambition est de faire de Marrakech un laboratoire vivant de l'innovation urbaine, en mobilisant les meilleures compétences académiques et industrielles au service de villes plus intelligentes, plus durables et plus humaines.<br><br>Nous croyons fermement que l'université a un rôle central à jouer dans la transition numérique de nos villes — non pas comme observatrice, mais comme actrice et catalysatrice du changement.</div>
+      <div class="dir-sig">
+        <div class="dir-av">D</div>
+        <div class="dir-sig-txt">
+          <strong>Pr. [Nom du Directeur]</strong>
+          <span>Directeur du Centre Smart City · UCA</span>
+          <span style="display:block;font-size:11.5px;color:var(--br);margin-top:2px;font-weight:600">Professeur des Universités · ENSA Marrakech</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUI SOMMES-NOUS section (full screen) -->
+<div class="qui-fs">
+  <div class="fs-inner">
+    <div class="qui-grid">
+      <div class="rv-l">
+        <div class="eyebrow">Qui sommes-nous ?</div>
+        <div class="qui-title">Un centre au cœur de <em>l'innovation</em> urbaine</div>
+        <p class="qui-desc">Le Centre Smart City de l'UCA est un espace pluridisciplinaire dédié à la recherche appliquée, à l'innovation technologique et à l'expérimentation de solutions pour les villes intelligentes et durables. Rattaché à la Cité de l'Innovation de Marrakech, nous mobilisons chercheurs, ingénieurs et partenaires autour d'enjeux urbains concrets.</p>
+        <div class="vm-cards">
+          <div class="vm-card">
+            <h4>Notre Vision</h4>
+            <p>Être le centre de référence pour les villes intelligentes et durables au Maghreb à l'horizon 2030, en contribuant à l'émergence d'un écosystème territorial connecté et résilient.</p>
+          </div>
+          <div class="vm-card">
+            <h4>Notre Mission</h4>
+            <p>Fédérer les acteurs académiques, industriels et institutionnels autour de projets de recherche à fort impact territorial, adaptés aux réalités des villes marocaines et africaines.</p>
+          </div>
+        </div>
+        <div class="val-tags">
+          <span class="vtag">Innovation</span><span class="vtag">Durabilité</span><span class="vtag">Inclusion</span><span class="vtag">Collaboration</span><span class="vtag">Excellence</span>
+        </div>
+        <button class="btn-s" onclick="showPage('qui')">En savoir plus <svg style="width:14px;height:14px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></button>
+      </div>
+      <div class="qui-right rv-r">
+        <div class="qi-box dark">
+          <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+          <span>23</span>
+          <h3>Projets de recherche actifs</h3>
+          <p>Des projets pluridisciplinaires à impact direct sur les territoires urbains marocains.</p>
+        </div>
+        <div class="qi-box orange">
+          <svg viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12z"/></svg>
+          <span>18</span>
+          <h3>Partenaires institutionnels</h3>
+          <p>Communes, entreprises et organismes publics mobilisés autour de l'innovation.</p>
+        </div>
+        <div class="qi-box light">
+          <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3z"/></svg>
+          <span>47+</span>
+          <h3>Membres chercheurs</h3>
+          <p>Une communauté de chercheurs et ingénieurs au service de la ville de demain.</p>
+        </div>
+        <div class="qi-box cream">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+          <span>4</span>
+          <h3>Axes stratégiques</h3>
+          <p>Énergie, Connectivité, Mobilité, Gouvernance — une approche intégrée de la ville.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AXES (full screen) -->
+<div class="axes-fs">
+  <div class="fs-inner">
+    <div class="sh-row rv">
+      <div><div class="sh-lbl">Domaines d'expertise</div><div class="sh-title">Nos axes de recherche</div><div class="sh-sub">Quatre grands domaines stratégiques pour construire la ville intelligente de demain.</div></div>
+      <button class="btn-s" onclick="showPage('axes')">Voir le détail</button>
+    </div>
+    <div class="axes-grid-big rv">
+      <div class="axe-card-big" onclick="showPage('axes')">
+        <div class="axe-num">01</div>
+        <div class="axe-ico-big"><svg viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg></div>
+        <h3>Énergie & Environnement</h3>
+        <p>Solutions énergétiques durables, gestion intelligente des ressources naturelles, énergies renouvelables et transition écologique urbaine. Qualité de l'air et gestion des déchets.</p>
+        <div class="axe-tags"><span class="atag">Énergie solaire</span><span class="atag">Smart Grid</span><span class="atag">Qualité de l'air</span></div>
+        <div class="axe-arrow">Explorer cet axe <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></div>
+      </div>
+      <div class="axe-card-big" onclick="showPage('axes')">
+        <div class="axe-num">02</div>
+        <div class="axe-ico-big"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg></div>
+        <h3>Connectivité & IoT</h3>
+        <p>Infrastructure numérique, objets connectés, réseaux LoRaWAN et gestion des données urbaines. Interopérabilité des systèmes et déploiement de capteurs à grande échelle.</p>
+        <div class="axe-tags"><span class="atag">IoT</span><span class="atag">LoRaWAN</span><span class="atag">Données urbaines</span></div>
+        <div class="axe-arrow">Explorer cet axe <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></div>
+      </div>
+      <div class="axe-card-big" onclick="showPage('axes')">
+        <div class="axe-num">03</div>
+        <div class="axe-ico-big"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99z"/></svg></div>
+        <h3>Mobilité Urbaine</h3>
+        <p>Transport intelligent, mobilité douce et optimisation des flux. Signalisation adaptative, information voyageur en temps réel et planification multimodale des déplacements.</p>
+        <div class="axe-tags"><span class="atag">Transport intelligent</span><span class="atag">Multimodal</span><span class="atag">IA trafic</span></div>
+        <div class="axe-arrow">Explorer cet axe <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></div>
+      </div>
+      <div class="axe-card-big" onclick="showPage('axes')">
+        <div class="axe-num">04</div>
+        <div class="axe-ico-big"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>
+        <h3>Gouvernance & Sécurité</h3>
+        <p>Administration numérique, cybersécurité et systèmes de gouvernance intelligente. Transformation digitale des collectivités, protection des données et résilience des infrastructures.</p>
+        <div class="axe-tags"><span class="atag">E-gouvernance</span><span class="atag">Cybersécurité</span><span class="atag">Résilience</span></div>
+        <div class="axe-arrow">Explorer cet axe <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SHORTCUTS (full screen) -->
+<div class="shortcuts-fs">
+  <div class="sc-grid" style="width:100%;max-width:none">
+    <div class="sc-it" onclick="showPage('projets')">
+      <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+      <h3>Projets</h3>
+      <p>Découvrez nos projets de recherche et d'innovation en cours et réalisés sur nos 4 axes stratégiques.</p>
+      <div class="sc-lnk">Voir les projets <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></div>
+    </div>
+    <div class="sc-it" onclick="showPage('formations')">
+      <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
+      <h3>Formations</h3>
+      <p>Formations présentielles spécialisées smart city, dispensées par nos chercheurs et experts.</p>
+      <div class="sc-lnk">Voir les formations <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></div>
+    </div>
+    <div class="sc-it" onclick="showPage('publications')">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      <h3>Publications</h3>
+      <p>Articles scientifiques, rapports techniques et documents publiés par nos équipes de recherche.</p>
+      <div class="sc-lnk">Voir les publications <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></div>
+    </div>
+  </div>
+</div>
+
+<!-- EVENTS (full screen) -->
+<div class="events-fs">
+  <div class="fs-inner">
+    <div class="sh-row rv">
+      <div><div class="sh-lbl">Agenda</div><div class="sh-title">Événements à venir</div><div class="sh-sub">Restez informé des conférences, ateliers et séminaires organisés par le centre.</div></div>
+      <button class="btn-s" onclick="showPage('events')">Voir tous les événements</button>
+    </div>
+    <div class="ev-list rv">
+      <div class="ev-it">
+        <div class="ev-date"><div class="ev-day">18</div><div class="ev-mo">Juil</div></div>
+        <div class="ev-inf">
+          <h3>Forum International Smart City Marrakech 2025</h3>
+          <p>Conférence internationale réunissant experts, collectivités et industriels autour des enjeux de la ville intelligente au Maghreb. Programme complet sur demande.</p>
+          <div class="ev-meta"><span>⏱ 09:00–18:00</span><span>📍 Palais des Congrès, Marrakech</span></div>
+        </div>
+        <span class="ev-tag">Conférence</span>
+      </div>
+      <div class="ev-it">
+        <div class="ev-date"><div class="ev-day">05</div><div class="ev-mo">Aoû</div></div>
+        <div class="ev-inf">
+          <h3>Atelier IoT & Infrastructure Urbaine</h3>
+          <p>Session pratique sur le déploiement de capteurs LoRaWAN en milieu urbain. Places limitées à 15 participants.</p>
+          <div class="ev-meta"><span>⏱ 09:00–17:00</span><span>📍 Centre Smart City, UCA</span></div>
+        </div>
+        <span class="ev-tag">Atelier</span>
+      </div>
+      <div class="ev-it">
+        <div class="ev-date"><div class="ev-day">20</div><div class="ev-mo">Sep</div></div>
+        <div class="ev-inf">
+          <h3>Séminaire : Données Urbaines & IA au Maroc</h3>
+          <p>Table ronde et présentations sur l'utilisation de l'intelligence artificielle pour la gestion des données urbaines.</p>
+          <div class="ev-meta"><span>⏱ 14:00–18:00</span><span>📍 ENSA Marrakech</span></div>
+        </div>
+        <span class="ev-tag">Séminaire</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-in">
+    <div class="ft-grid">
+      <div class="ft-brand">
+        <h3>Centre Smart City · UCA</h3>
+        <p>Un centre d'innovation académique dédié à la recherche et au développement de solutions pour les villes intelligentes et durables au Maroc.</p>
+      </div>
+      <div class="ft-col"><h4>Le Centre</h4><a onclick="showPage('qui')">Qui sommes-nous</a><a onclick="showPage('axes')">Axes de recherche</a><a onclick="showPage('projets')">Projets</a><a>Partenaires</a></div>
+      <div class="ft-col"><h4>Ressources</h4><a onclick="showPage('publications')">Publications</a><a onclick="showPage('formations')">Formations</a><a onclick="showPage('events')">Événements</a></div>
+      <div class="ft-col"><h4>Contact</h4><a>smartcity@uca.ca.ma</a><a>Marrakech, Maroc</a><a>uca.ca.ma</a></div>
+    </div>
+    <div class="ft-bot"><span>© 2025 Centre Smart City — Université Cadi Ayyad.</span><div style="display:flex;gap:16px"><a>Mentions légales</a><a>Confidentialité</a></div></div>
+  </div>
+</footer>
+
+</div><!-- /home -->
+
+<!-- OTHER PAGES (abbreviated) -->
+<div id="page-qui" class="page">
+  <div class="ph"><div class="ph-in"><div class="hbadge">À propos</div><h1 style="font-size:clamp(24px,3vw,42px);font-weight:700;color:white;margin-top:12px">Qui sommes-nous ?</h1></div></div>
+  <div class="fs" style="background:var(--wh)"><div class="fs-inner"><div style="display:grid;grid-template-columns:1fr 1fr;gap:48px">
+    <div class="rv-l"><div class="eyebrow">Notre identité</div><h2 style="font-size:24px;font-weight:700;margin-bottom:16px">Un centre ancré dans la recherche et l'innovation territoriale</h2><p style="font-size:15px;color:var(--gy);line-height:1.8;margin-bottom:14px">Le Centre Smart City de l'UCA est un espace pluridisciplinaire dédié à la recherche appliquée et à l'innovation technologique pour les villes intelligentes et durables au Maroc. Rattaché à la Cité de l'Innovation de Marrakech.</p><p style="font-size:15px;color:var(--gy);line-height:1.8">Notre ambition est d'inscrire Marrakech et le Maroc dans la dynamique mondiale des villes intelligentes, en valorisant les compétences locales.</p></div>
+    <div class="rv-r" style="display:flex;flex-direction:column;gap:16px">
+      <div style="background:var(--br);border-radius:8px;padding:28px;color:white"><h3 style="font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;opacity:.8">Notre Vision</h3><p style="font-size:14.5px;line-height:1.75;opacity:.9">Être le centre de référence pour les villes intelligentes et durables au Maghreb à l'horizon 2030.</p></div>
+      <div style="background:var(--br-l);border:1px solid rgba(200,132,42,.25);border-radius:8px;padding:28px"><h3 style="font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;color:var(--br)">Notre Mission</h3><p style="font-size:14.5px;line-height:1.75;color:var(--dk)">Fédérer les acteurs académiques, industriels et institutionnels autour de projets de recherche à fort impact territorial.</p></div>
+      <div style="background:var(--wh);border:1px solid var(--bd);border-radius:8px;padding:28px"><h3 style="font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:12px;color:var(--br)">Nos Valeurs</h3><div class="tags"><span class="tag">Innovation</span><span class="tag">Durabilité</span><span class="tag">Inclusion</span><span class="tag">Collaboration</span><span class="tag">Excellence</span></div></div>
+    </div>
+  </div></div></div>
+</div>
+
+<div id="page-axes" class="page">
+  <div class="ph"><div class="ph-in"><div class="hbadge">Expertise</div><h1 style="font-size:clamp(24px,3vw,42px);font-weight:700;color:white;margin-top:12px">Axes de Recherche</h1></div></div>
+  <div style="padding:60px 1.5rem"><div style="max-width:1200px;margin:0 auto">
+    <div class="axe-row rv"><div class="axe-rl odd"><svg viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg><h2>Axe 1</h2><h3>Énergie & Environnement</h3></div><div class="axe-rr"><p>Solutions énergétiques durables, gestion des ressources et transition écologique urbaine.</p><div class="tags"><span class="tag">Énergie solaire</span><span class="tag">Smart Grid</span><span class="tag">Qualité de l'air</span></div><button class="btn-s" style="margin-top:16px" onclick="showPage('projets')">Projets liés</button></div></div>
+    <div class="axe-row rv"><div class="axe-rl even"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9z"/></svg><h2>Axe 2</h2><h3>Connectivité & IoT</h3></div><div class="axe-rr"><p>Infrastructure numérique, IoT, LoRaWAN et gestion des données urbaines.</p><div class="tags"><span class="tag">IoT</span><span class="tag">LoRaWAN</span><span class="tag">Données urbaines</span></div><button class="btn-s" style="margin-top:16px" onclick="showPage('projets')">Projets liés</button></div></div>
+    <div class="axe-row rv"><div class="axe-rl odd"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99z"/></svg><h2>Axe 3</h2><h3>Mobilité Urbaine</h3></div><div class="axe-rr"><p>Transport intelligent, mobilité douce et optimisation des flux dans la ville.</p><div class="tags"><span class="tag">Transport intelligent</span><span class="tag">Multimodal</span><span class="tag">IA trafic</span></div><button class="btn-s" style="margin-top:16px" onclick="showPage('projets')">Projets liés</button></div></div>
+    <div class="axe-row rv"><div class="axe-rl even"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg><h2>Axe 4</h2><h3>Gouvernance & Sécurité</h3></div><div class="axe-rr"><p>Administration numérique, cybersécurité et gouvernance intelligente des territoires.</p><div class="tags"><span class="tag">E-gouvernance</span><span class="tag">Cybersécurité</span><span class="tag">Résilience</span></div><button class="btn-s" style="margin-top:16px" onclick="showPage('projets')">Projets liés</button></div></div>
+  </div></div>
+</div>
+
+<div id="page-projets" class="page">
+  <div class="ph"><div class="ph-in"><div class="hbadge">Recherche & Innovation</div><h1 style="font-size:clamp(24px,3vw,42px);font-weight:700;color:white;margin-top:12px">Nos Projets</h1></div></div>
+  <div style="padding:48px 1.5rem"><div style="max-width:1200px;margin:0 auto">
+    <div class="yf"><button class="yb on">Tous</button><button class="yb">Énergie</button><button class="yb">IoT</button><button class="yb">Mobilité</button><button class="yb">Gouvernance</button></div>
+    <div class="proj-grid">
+      <div class="proj-c"><div class="proj-img"><svg viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg></div><div class="proj-b"><div class="proj-axe">Énergie & Environnement</div><h3>SmartGrid Marrakech</h3><p>Réseau électrique adaptatif avec gestion prédictive de la demande.</p><div class="proj-meta"><span class="bc">En cours</span><span style="font-size:12px;color:var(--gy)">2024–2026</span></div></div></div>
+      <div class="proj-c"><div class="proj-img"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9z"/></svg></div><div class="proj-b"><div class="proj-axe">Connectivité & IoT</div><h3>UrbanSense — Capteurs LoRaWAN</h3><p>200 capteurs pour la mesure en temps réel de la qualité de l'air.</p><div class="proj-meta"><span class="bc">En cours</span><span style="font-size:12px;color:var(--gy)">2023–2025</span></div></div></div>
+      <div class="proj-c"><div class="proj-img"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11z"/></svg></div><div class="proj-b"><div class="proj-axe">Mobilité Urbaine</div><h3>MobiFlow — Optimisation trafic</h3><p>IA pour gestion dynamique des feux et information voyageur.</p><div class="proj-meta"><span class="bf">Terminé</span><span style="font-size:12px;color:var(--gy)">2022–2023</span></div></div></div>
+      <div class="proj-c"><div class="proj-img"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12z"/></svg></div><div class="proj-b"><div class="proj-axe">Gouvernance & Sécurité</div><h3>CitySecure — Cybersécurité</h3><p>Référentiel cybersécurité pour infrastructures critiques des villes.</p><div class="proj-meta"><span class="bc">En cours</span><span style="font-size:12px;color:var(--gy)">2024–2025</span></div></div></div>
+      <div class="proj-c"><div class="proj-img"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12z"/></svg></div><div class="proj-b"><div class="proj-axe">Énergie & Environnement</div><h3>AquaSmart — Gestion de l'eau</h3><p>Détection de fuites par ML et optimisation de la distribution.</p><div class="proj-meta"><span class="bc">En cours</span><span style="font-size:12px;color:var(--gy)">2025–2027</span></div></div></div>
+      <div class="proj-c"><div class="proj-img"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3z"/></svg></div><div class="proj-b"><div class="proj-axe">Gouvernance & Sécurité</div><h3>ParticiCity — Gouvernance participative</h3><p>App citoyenne pour participation aux décisions locales.</p><div class="proj-meta"><span class="bf">Terminé</span><span style="font-size:12px;color:var(--gy)">2022–2024</span></div></div></div>
+    </div>
+  </div></div>
+</div>
+
+<div id="page-publications" class="page">
+  <div class="ph"><div class="ph-in"><div class="hbadge">Ressources</div><h1 style="font-size:clamp(24px,3vw,42px);font-weight:700;color:white;margin-top:12px">Publications</h1></div></div>
+  <div style="padding:48px 1.5rem"><div style="max-width:1200px;margin:0 auto">
+    <div class="yf"><button class="yb on">Toutes</button><button class="yb">2025</button><button class="yb">2024</button><button class="yb">2023</button></div>
+    <div class="pub-list">
+      <div class="pub-it"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6z"/></svg><div><h3>Smart Grid Implementation in Moroccan Medium-Sized Cities</h3><p>2025 · Article · Énergie & Environnement · Benali, K., Outahadout, M.</p></div><div class="pub-dl"><svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg></div></div>
+      <div class="pub-it"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6z"/></svg><div><h3>LoRaWAN Deployment for Urban Sensing: Marrakech Pilot</h3><p>2025 · Rapport technique · Connectivité & IoT · Slimani, A. et al.</p></div><div class="pub-dl"><svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg></div></div>
+      <div class="pub-it"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6z"/></svg><div><h3>Cadre de cybersécurité pour les villes intelligentes africaines</h3><p>2024 · Guide méthodologique · Gouvernance & Sécurité</p></div><div class="pub-dl"><svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg></div></div>
+      <div class="pub-it"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6z"/></svg><div><h3>Mobilité urbaine et IA : état de l'art au Maroc</h3><p>2024 · Revue de littérature · Mobilité Urbaine</p></div><div class="pub-dl"><svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg></div></div>
+      <div class="pub-it"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6z"/></svg><div><h3>Rapport annuel Centre Smart City 2023</h3><p>2023 · Rapport annuel · Centre Smart City UCA</p></div><div class="pub-dl"><svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg></div></div>
+    </div>
+  </div></div>
+</div>
+
+<div id="page-formations" class="page">
+  <div class="ph"><div class="ph-in"><div class="hbadge">Formations présentielles</div><h1 style="font-size:clamp(24px,3vw,42px);font-weight:700;color:white;margin-top:12px">Formations</h1></div></div>
+  <div style="padding:48px 1.5rem"><div style="max-width:1200px;margin:0 auto"><div class="fm-grid">
+    <div class="fm-c"><h3>Introduction aux Villes Intelligentes</h3><p>Panorama des technologies, enjeux et acteurs smart city pour décideurs et professionnels.</p><div class="fm-meta"><span class="fmm">⏱ 3 jours</span><span class="fmm">👥 20 places</span><span class="fmm">📍 Présentiel</span></div></div>
+    <div class="fm-c"><h3>Déploiement IoT & LoRaWAN</h3><p>Formation pratique sur la configuration et le déploiement de réseaux de capteurs urbains.</p><div class="fm-meta"><span class="fmm">⏱ 5 jours</span><span class="fmm">👥 15 places</span><span class="fmm">📍 Présentiel</span></div></div>
+    <div class="fm-c"><h3>Gestion des données urbaines</h3><p>Collecte, traitement et visualisation des données des infrastructures connectées.</p><div class="fm-meta"><span class="fmm">⏱ 4 jours</span><span class="fmm">👥 18 places</span><span class="fmm">📍 Présentiel</span></div></div>
+    <div class="fm-c"><h3>Cybersécurité pour les collectivités</h3><p>Sécurisation des systèmes des administrations locales et infrastructures critiques.</p><div class="fm-meta"><span class="fmm">⏱ 3 jours</span><span class="fmm">👥 20 places</span><span class="fmm">📍 Présentiel</span></div></div>
+    <div class="fm-c"><h3>Mobilité Urbaine Durable</h3><p>Modélisation des systèmes de transport intelligent, études de cas marocains.</p><div class="fm-meta"><span class="fmm">⏱ 2 jours</span><span class="fmm">👥 25 places</span><span class="fmm">📍 Présentiel</span></div></div>
+    <div class="fm-c"><h3>Transition énergétique & Smart Grid</h3><p>Réseaux électriques intelligents, énergies renouvelables et gestion de la demande.</p><div class="fm-meta"><span class="fmm">⏱ 4 jours</span><span class="fmm">👥 15 places</span><span class="fmm">📍 Présentiel</span></div></div>
+  </div></div></div>
+</div>
+
+<div id="page-events" class="page">
+  <div class="ph"><div class="ph-in"><div class="hbadge">Agenda</div><h1 style="font-size:clamp(24px,3vw,42px);font-weight:700;color:white;margin-top:12px">Événements</h1></div></div>
+  <div style="padding:48px 1.5rem"><div style="max-width:1200px;margin:0 auto"><div class="ev-list">
+    <div class="ev-it"><div class="ev-date"><div class="ev-day">18</div><div class="ev-mo">Juil</div></div><div class="ev-inf"><h3>Forum International Smart City Marrakech 2025</h3><p>Conférence internationale. 09:00–18:00 · Palais des Congrès, Marrakech.</p></div><span class="ev-tag">Conférence</span></div>
+    <div class="ev-it"><div class="ev-date"><div class="ev-day">05</div><div class="ev-mo">Aoû</div></div><div class="ev-inf"><h3>Atelier IoT & Infrastructure Urbaine</h3><p>15 places. 09:00–17:00 · Centre Smart City, UCA.</p></div><span class="ev-tag">Atelier</span></div>
+    <div class="ev-it"><div class="ev-date"><div class="ev-day">20</div><div class="ev-mo">Sep</div></div><div class="ev-inf"><h3>Séminaire : Données urbaines & IA au Maroc</h3><p>14:00–18:00 · ENSA Marrakech.</p></div><span class="ev-tag">Séminaire</span></div>
+  </div></div></div>
+</div>
+
+</div><!-- /pub -->
+
+<!-- ===== ADMIN ===== -->
+<div id="adm" style="display:none">
+<div class="adm-w">
+  <div class="adm-s">
+    <div class="adm-sb"><strong>Smart City · Admin</strong><span>Université Cadi Ayyad</span></div>
+    <div class="adm-nav">
+      <div class="adm-sec">Vue d'ensemble</div>
+      <div class="al on" onclick="showAP('db',this)"><svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg> Tableau de bord</div>
+      <div class="adm-sec">Contenu</div>
+      <div class="al" onclick="showAP('ev',this)"><svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2z"/></svg> Événements</div>
+      <div class="al" onclick="showAP('pr',this)"><svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg> Projets</div>
+      <div class="al" onclick="showAP('pu',this)"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6z"/></svg> Publications</div>
+      <div class="al" onclick="showAP('fo',this)"><svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg> Formations</div>
+      <div class="adm-sec">Paramètres</div>
+      <div class="al" onclick="showAP('ch',this)"><svg viewBox="0 0 24 24"><path d="M5 9.2h3V19H5V9.2zM10.6 5h2.8v14h-2.8V5zm5.6 8H19v6h-2.8v-6z"/></svg> Chiffres clés</div>
+      <div class="adm-sec">Navigation</div>
+      <div class="al" onclick="showPublic()" style="color:rgba(200,132,42,.8)"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg> Voir le site</div>
+    </div>
+  </div>
+  <div class="ac">
+    <div id="ap-db" class="ap on"><div class="at">Tableau de bord</div><div class="as">Bienvenue dans l'administration du Centre Smart City</div><div class="sr"><div class="sb"><div class="n">6</div><div class="l">Projets actifs</div></div><div class="sb"><div class="n">5</div><div class="l">Publications</div></div><div class="sb"><div class="n">3</div><div class="l">Événements</div></div><div class="sb"><div class="n">6</div><div class="l">Formations</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div class="a-table"><div class="ath"><h3>Derniers événements</h3><button class="ab abe" onclick="showAP('ev',null)">+ Ajouter</button></div><table><tr><th>Titre</th><th>Date</th></tr><tr><td>Forum Smart City 2025</td><td>18 Juil</td></tr><tr><td>Atelier IoT</td><td>05 Aoû</td></tr></table></div><div class="a-table"><div class="ath"><h3>Publications récentes</h3><button class="ab abe" onclick="showAP('pu',null)">+ Ajouter</button></div><table><tr><th>Document</th><th>Année</th></tr><tr><td>Smart Grid Moroccan Cities</td><td>2025</td></tr><tr><td>LoRaWAN Deployment</td><td>2025</td></tr></table></div></div></div>
+    <div id="ap-ev" class="ap"><div class="at">Événements</div><div class="as">Gérer les événements du site</div><div class="fc"><h3>Ajouter un événement</h3><div class="fr"><div class="fg"><label>Titre</label><input type="text" placeholder="Titre"></div><div class="fg"><label>Date</label><input type="date"></div></div><div class="fr"><div class="fg"><label>Heure</label><input type="time" value="09:00"></div><div class="fg"><label>Lieu</label><input type="text" placeholder="Centre Smart City"></div></div><div class="fg"><label>Description</label><textarea placeholder="Description..."></textarea></div><div class="fr"><div class="fg"><label>Type</label><select><option>Conférence</option><option>Atelier</option><option>Séminaire</option></select></div><div class="fg"><label>Photo (URL)</label><input type="text" placeholder="https://..."></div></div><button class="btn-p">Enregistrer</button></div><div class="a-table"><div class="ath"><h3>Événements existants</h3></div><table><tr><th>Titre</th><th>Date</th><th>Type</th><th>Actions</th></tr><tr><td>Forum Smart City 2025</td><td>18 Juil</td><td><span class="tag" style="font-size:10px">Conf.</span></td><td><span style="display:flex;gap:5px"><button class="ab abe">✏</button><button class="ab abd">✕</button></span></td></tr><tr><td>Atelier IoT</td><td>05 Aoû</td><td><span class="tag" style="font-size:10px">Atelier</span></td><td><span style="display:flex;gap:5px"><button class="ab abe">✏</button><button class="ab abd">✕</button></span></td></tr></table></div></div>
+    <div id="ap-pr" class="ap"><div class="at">Projets</div><div class="as">Gérer les projets de recherche</div><div class="fc"><h3>Ajouter un projet</h3><div class="fr"><div class="fg"><label>Titre</label><input type="text" placeholder="Nom du projet"></div><div class="fg"><label>Axe</label><select><option>Énergie & Environnement</option><option>Connectivité & IoT</option><option>Mobilité Urbaine</option><option>Gouvernance & Sécurité</option></select></div></div><div class="fg"><label>Description</label><textarea placeholder="Description..."></textarea></div><div class="fr"><div class="fg"><label>Membres</label><input type="text" placeholder="Noms, prénoms..."></div><div class="fg"><label>Partenaires</label><input type="text" placeholder="Organisations..."></div></div><div class="fr"><div class="fg"><label>Date début</label><input type="date"></div><div class="fg"><label>Statut</label><select><option>En cours</option><option>Terminé</option><option>À venir</option></select></div></div><button class="btn-p">Enregistrer</button></div></div>
+    <div id="ap-pu" class="ap"><div class="at">Publications</div><div class="as">Gérer les documents publiés</div><div class="fc"><h3>Ajouter une publication</h3><div class="fr"><div class="fg"><label>Titre</label><input type="text" placeholder="Titre"></div><div class="fg"><label>Année</label><select><option>2025</option><option>2024</option><option>2023</option></select></div></div><div class="fr"><div class="fg"><label>Auteurs</label><input type="text" placeholder="Auteurs..."></div><div class="fg"><label>Type</label><select><option>Article</option><option>Rapport</option><option>Guide</option><option>Rapport annuel</option></select></div></div><div class="ua"><svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg><p><strong>Glisser le PDF ici</strong> ou cliquer pour parcourir · PDF uniquement · 50Mo max</p></div><button class="btn-p" style="margin-top:14px">Publier</button></div></div>
+    <div id="ap-fo" class="ap"><div class="at">Formations</div><div class="as">Gérer le catalogue de formations</div><div class="fc"><h3>Ajouter une formation</h3><div class="fr"><div class="fg"><label>Titre</label><input type="text" placeholder="Titre"></div><div class="fg"><label>Durée</label><input type="text" placeholder="3 jours"></div></div><div class="fg"><label>Description</label><textarea placeholder="Contenu et objectifs..."></textarea></div><div class="fr"><div class="fg"><label>Places</label><input type="number" placeholder="20"></div><div class="fg"><label>Axe</label><select><option>Général</option><option>Énergie</option><option>IoT</option><option>Mobilité</option><option>Gouvernance</option></select></div></div><button class="btn-p">Enregistrer</button></div></div>
+    <div id="ap-ch" class="ap"><div class="at">Chiffres clés</div><div class="as">Personnaliser les statistiques affichées sur l'accueil</div><div style="background:var(--br-l);border:1px solid rgba(200,132,42,.25);border-radius:6px;padding:12px 16px;margin-bottom:18px;font-size:13.5px">Les chiffres activés (toggle ON) s'affichent dans la section statistiques de la page d'accueil.</div><div class="cha"><div class="chac"><div class="chib"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3z"/></svg></div><div style="flex:1"><div style="font-size:11px;font-weight:700;color:var(--gy);text-transform:uppercase;margin-bottom:4px">Membres chercheurs</div><input type="number" value="47" style="width:65px;border:1px solid var(--bd);border-radius:4px;padding:4px 7px;font-size:15px;font-weight:700;color:var(--br)"></div><button class="tgl on" onclick="this.classList.toggle('on')"></button></div><div class="chac"><div class="chib"><svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1z"/></svg></div><div style="flex:1"><div style="font-size:11px;font-weight:700;color:var(--gy);text-transform:uppercase;margin-bottom:4px">Projets actifs</div><input type="number" value="23" style="width:65px;border:1px solid var(--bd);border-radius:4px;padding:4px 7px;font-size:15px;font-weight:700;color:var(--br)"></div><button class="tgl on" onclick="this.classList.toggle('on')"></button></div><div class="chac"><div class="chib"><svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5z"/></svg></div><div style="flex:1"><div style="font-size:11px;font-weight:700;color:var(--gy);text-transform:uppercase;margin-bottom:4px">Événements</div><input type="number" value="61" style="width:65px;border:1px solid var(--bd);border-radius:4px;padding:4px 7px;font-size:15px;font-weight:700;color:var(--br)"></div><button class="tgl on" onclick="this.classList.toggle('on')"></button></div><div class="chac"><div class="chib"><svg viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12z"/></svg></div><div style="flex:1"><div style="font-size:11px;font-weight:700;color:var(--gy);text-transform:uppercase;margin-bottom:4px">Partenaires</div><input type="number" value="18" style="width:65px;border:1px solid var(--bd);border-radius:4px;padding:4px 7px;font-size:15px;font-weight:700;color:var(--br)"></div><button class="tgl on" onclick="this.classList.toggle('on')"></button></div></div><button class="btn-p" style="margin-top:20px">Sauvegarder</button></div>
+  </div>
+</div>
+</div>
+
+<script>
+// PRELOADER
+window.addEventListener('load',()=>{setTimeout(()=>{document.getElementById('pl').classList.add('out')},1800)});
+
+// SCROLL PROGRESS
+const spb=document.getElementById('spb');
+window.addEventListener('scroll',()=>{const h=document.documentElement;spb.style.width=((h.scrollTop/(h.scrollHeight-h.clientHeight))*100)+'%'},{passive:true});
+
+// SLIDER
+let cur=0,tot=4,timer;
+function goSlide(i){
+  document.querySelectorAll('.slide').forEach(s=>s.classList.remove('act-slide'));
+  document.querySelectorAll('.dot').forEach(d=>d.classList.remove('on'));
+  document.getElementById('slides').style.transform=`translateX(-${i*100}%)`;
+  document.querySelectorAll('.slide')[i].classList.add('act-slide');
+  document.querySelectorAll('.dot')[i].classList.add('on');
+  cur=i;
+}
+function nextSlide(){goSlide((cur+1)%tot)}
+function prevSlide(){goSlide((cur-1+tot)%tot)}
+function startAuto(){timer=setInterval(nextSlide,5000)}
+function stopAuto(){clearInterval(timer)}
+document.querySelector('.hero-slider').addEventListener('mouseenter',stopAuto);
+document.querySelector('.hero-slider').addEventListener('mouseleave',startAuto);
+startAuto();
+
+// PAGES
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.getElementById('page-'+id)?.classList.add('on');
+  document.querySelectorAll('.nlinks a').forEach(a=>a.classList.remove('act'));
+  document.getElementById('nl-'+id)?.classList.add('act');
+  window.scrollTo(0,0);
+  setTimeout(checkRv,100);
+}
+
+// ADMIN
+function showAdmin(){document.getElementById('pub').style.display='none';document.getElementById('adm').style.display='block'}
+function showPublic(){document.getElementById('adm').style.display='none';document.getElementById('pub').style.display='block'}
+function showAP(id,el){
+  document.querySelectorAll('.ap').forEach(p=>p.classList.remove('on'));
+  document.getElementById('ap-'+id)?.classList.add('on');
+  document.querySelectorAll('.al').forEach(a=>a.classList.remove('on'));
+  if(el)el.classList.add('on');
+}
+
+// LANG
+function setLang(el){document.querySelectorAll('.lb').forEach(b=>b.classList.remove('on'));el.classList.add('on')}
+
+// FILTER BTNS
+document.querySelectorAll('.yf,.yb').forEach(b=>{
+  if(b.tagName==='BUTTON')b.onclick=function(){this.closest('.yf')?.querySelectorAll('.yb').forEach(x=>x.classList.remove('on'));this.classList.add('on')}
+});
+
+// REVEAL
+function checkRv(){
+  document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el=>{
+    if(el.getBoundingClientRect().top<window.innerHeight-60)el.classList.add('vis')
+  })
+}
+window.addEventListener('scroll',checkRv,{passive:true});
+setTimeout(checkRv,300);
+
+// COUNT-UP
+let counted=false;
+function startCount(){
+  if(counted)return;counted=true;
+  document.querySelectorAll('.ch-n[data-t]').forEach(el=>{
+    const t=+el.dataset.t,s=el.dataset.s||'';
+    let v=0;const step=Math.ceil(t/60);
+    const iv=setInterval(()=>{v+=step;if(v>=t){v=t;clearInterval(iv);}el.innerHTML=v+(s?`<span class="ch-s">${s}</span>`:'')},1600/60)
+  })
+}
+new IntersectionObserver(e=>{if(e[0].isIntersecting)startCount()},{threshold:.3}).observe(document.querySelector('.chiffres-fs'));
+</script>

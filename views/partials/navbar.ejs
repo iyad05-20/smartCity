@@ -1,0 +1,21 @@
+<nav>
+  <div class="nav-in">
+    <a href="/" class="nlogo" style="text-decoration:none">
+      <div class="nlogo-box"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/><path d="M3 12a9 9 0 0 0 9 9V3a9 9 0 0 0-9 9z" style="opacity:.4"/></svg></div>
+      <div class="nlogo-txt"><strong><%= settings.general.siteName %></strong><span><%= settings.general.universityName %></span></div>
+    </a>
+    <div class="nlinks">
+      <a href="/" class="<%= currentPage === 'home' ? 'act' : '' %>">Accueil</a>
+      <a href="/axes" class="<%= currentPage === 'axes' ? 'act' : '' %>">Axes</a>
+      <a href="/projets" class="<%= currentPage === 'projets' ? 'act' : '' %>">Projets</a>
+      <a href="/formations" class="<%= currentPage === 'formations' ? 'act' : '' %>">Formations</a>
+      <a href="/publications" class="<%= currentPage === 'publications' ? 'act' : '' %>">Publications</a>
+      <a href="/evenements" class="<%= currentPage === 'events' ? 'act' : '' %>">Événements</a>
+    </div>
+    <div class="lbs">
+      <button class="lb on" onclick="setLang(this)">FR</button>
+      <button class="lb" onclick="setLang(this)">EN</button>
+      <button class="lb" onclick="setLang(this)">AR</button>
+    </div>
+  </div>
+</nav>

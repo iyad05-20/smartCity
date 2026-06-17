@@ -1,0 +1,23 @@
+<div class="events-fs" style="background:<%= index % 2 === 0 ? 'var(--wh)' : 'var(--cr)' %>;">
+  <div class="fs-inner">
+    <div class="sh-row rv">
+      <div><div class="sh-lbl">Innovation & Recherche</div><div class="sh-title">Le Projet Star</div><div class="sh-sub">Découvrez notre projet le plus marquant du moment.</div></div>
+      <a href="/projets" class="btn-s">Voir tous les projets</a>
+    </div>
+    <div class="ev-list rv">
+      <% if (data) { %>
+        <a href="/projets" class="ev-it" style="border-left: 4px solid var(--br);align-items:center;">
+          <div class="ev-date" style="background:rgba(200,132,42,.1);color:var(--br)"><svg style="width:32px;height:32px;fill:currentColor;display:block;margin:0 auto" viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg></div>
+          <div class="ev-inf">
+            <h3 style="font-size:22px"><%= data.title %></h3>
+            <p style="font-size:16px"><%= data.description %></p>
+            <div class="ev-meta"><span>🎯 Axe: <%= data.axe %></span><span>🤝 Partenaire: <%= data.partner %></span></div>
+          </div>
+          <span class="ev-tag" style="font-size:13px;background:var(--dk);color:white"><%= data.status %></span>
+        </a>
+      <% } else { %>
+        <div style="padding:40px;text-align:center;color:var(--gy)">Aucun projet sélectionné.</div>
+      <% } %>
+    </div>
+  </div>
+</div>

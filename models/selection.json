@@ -1,0 +1,24 @@
+{
+  "slots": [
+    {
+      "active": true,
+      "type": "projects",
+      "itemTitle": "ParticiCity — Gouvernance participative"
+    },
+    {
+      "active": true,
+      "type": "events",
+      "itemTitle": "Forum International Smart City Marrakech 2025"
+    },
+    {
+      "active": true,
+      "type": "publications",
+      "itemTitle": "LoRaWAN Deployment for Urban Sensing: Marrakech Pilot"
+    },
+    {
+      "active": true,
+      "type": "formations",
+      "itemTitle": "Transition énergétique & Smart Grid"
+    }
+  ]
+}

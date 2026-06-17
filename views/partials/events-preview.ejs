@@ -1,0 +1,21 @@
+<div class="events-fs">
+  <div class="fs-inner">
+    <div class="sh-row rv">
+      <div><div class="sh-lbl">Agenda</div><div class="sh-title">Événements à venir</div><div class="sh-sub">Restez informé des conférences, ateliers et séminaires organisés par le centre.</div></div>
+      <a href="/evenements" class="btn-s">Voir tous les événements</a>
+    </div>
+    <div class="ev-list rv">
+      <% events.forEach(ev => { %>
+        <a href="/evenements" class="ev-it">
+          <div class="ev-date"><div class="ev-day"><%= ev.day %></div><div class="ev-mo"><%= ev.month %></div></div>
+          <div class="ev-inf">
+            <h3><%= ev.title %></h3>
+            <p><%= ev.description %></p>
+            <div class="ev-meta"><span>⏱ <%= ev.time %></span><span>📍 <%= ev.location %></span></div>
+          </div>
+          <span class="ev-tag"><%= ev.type %></span>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="ph"><div class="ph-in"><div class="hbadge">Formations présentielles</div><h1 style="font-size:clamp(24px,3vw,42px);font-weight:700;color:white;margin-top:12px">Formations</h1></div></div>
+<div style="padding:48px 1.5rem;min-height:calc(100vh - 200px);background:var(--cr)"><div style="max-width:1200px;margin:0 auto"><div class="fm-grid">
+  <% formations.forEach(f => { %>
+    <div class="fm-c">
+      <h3><%= f.title %></h3>
+      <p><%= f.description %></p>
+      <div class="fm-meta">
+        <span class="fmm">⏱ <%= f.duration %></span>
+        <span class="fmm">👥 <%= f.places %> places</span>
+        <span class="fmm">📍 <%= f.location %></span>
+      </div>
+    </div>
+  <% }) %>
+</div></div></div>

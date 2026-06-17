@@ -1,0 +1,43 @@
+<div class="hero-slider">
+  <div class="slides" id="slides">
+    <% slides.forEach((slide, index) => { %>
+      <div class="slide <%= index === 0 ? 'act-slide' : '' %>">
+        <div class="slide-bg" style="background-image:url('<%- slide.bgImage %>')"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-text">
+            <div class="slide-badge"><svg style="width:13px;height:13px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg> <%- slide.badge %></div>
+            <h1><%- slide.title %></h1>
+            <p><%- slide.description %></p>
+            <div class="slide-cta">
+              <% slide.cta.forEach(btn => { %>
+                <a href="<%= btn.link %>" class="<%= btn.type === 'primary' ? 'btn-p' : 'btn-o' %>">
+                  <% if(btn.type === 'primary') { %><svg style="width:15px;height:15px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg><% } %>
+                  <%= btn.text %>
+                </a>
+              <% }) %>
+            </div>
+          </div>
+          <div class="slide-card">
+            <div class="sc-tag"><%- slide.card.tag %></div>
+            <h3><%- slide.card.title %></h3>
+            <p><%- slide.card.description %></p>
+            <div class="date" style="margin-bottom:14px"><svg style="width:13px;height:13px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg> <%- slide.card.date %></div>
+            <% if(slide.card.button) { %>
+              <a href="<%= slide.card.button.link %>" class="btn-lire"><%= slide.card.button.text %> <svg style="width:13px;height:13px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+
+  <button class="slider-arr" id="arr-l" onclick="prevSlide()">&#8249;</button>
+  <button class="slider-arr" id="arr-r" onclick="nextSlide()">&#8250;</button>
+
+  <div class="slider-dots">
+    <% slides.forEach((slide, index) => { %>
+      <button class="dot <%= index === 0 ? 'on' : '' %>" onclick="goSlide(<%= index %>)"></button>
+    <% }) %>
+  </div>
+</div>

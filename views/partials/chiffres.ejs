@@ -1,0 +1,39 @@
+<div class="chiffres-fs">
+  <div class="fs-inner" style="width:100%">
+    <div class="rv" style="text-align:center">
+      <div class="sh-lbl" style="color:rgba(200,132,42,.6)"><%= settings.homeHook.badgeText %></div>
+      <div class="sh-title white" style="font-size:clamp(26px,3.5vw,42px)"><%= settings.homeHook.title %></div>
+      <div class="sh-sub white" style="margin:10px auto 0;text-align:center"><%= settings.homeHook.subtitle %></div>
+    </div>
+    <div class="ch-grid rv">
+      <% if (chiffres.membres.active) { %>
+        <div class="ch-it">
+          <div class="ch-ico"><svg viewBox="0 0 24 24"><path d="<%= chiffres.membres.icon %>"/></svg></div>
+          <div class="ch-n" data-t="<%= chiffres.membres.value %>" data-s="+">0</div>
+          <div class="ch-l"><%= chiffres.membres.label %></div>
+        </div>
+      <% } %>
+      <% if (chiffres.projets.active) { %>
+        <div class="ch-it">
+          <div class="ch-ico"><svg viewBox="0 0 24 24"><path d="<%= chiffres.projets.icon %>"/></svg></div>
+          <div class="ch-n" data-t="<%= chiffres.projets.value %>">0</div>
+          <div class="ch-l"><%= chiffres.projets.label %></div>
+        </div>
+      <% } %>
+      <% if (chiffres.evenements.active) { %>
+        <div class="ch-it">
+          <div class="ch-ico"><svg viewBox="0 0 24 24"><path d="<%= chiffres.evenements.icon %>"/></svg></div>
+          <div class="ch-n" data-t="<%= chiffres.evenements.value %>">0</div>
+          <div class="ch-l"><%= chiffres.evenements.label %></div>
+        </div>
+      <% } %>
+      <% if (chiffres.partenaires.active) { %>
+        <div class="ch-it">
+          <div class="ch-ico"><svg viewBox="0 0 24 24"><path d="<%= chiffres.partenaires.icon %>"/></svg></div>
+          <div class="ch-n" data-t="<%= chiffres.partenaires.value %>">0</div>
+          <div class="ch-l"><%= chiffres.partenaires.label %></div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>

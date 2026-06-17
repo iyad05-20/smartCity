@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('../partials/preloader') %>
+    <div id="spb"></div>
+    <div id="pub">
+        <%- include('../partials/topbar') %>
+        <%- include('../partials/navbar', { currentPage: currentPage }) %>
+        <div id="page-content">
+            <%- body %>
+        </div>
+        <%- include('../partials/footer') %>
+    </div>
+    <!-- Loading overlay for AJAX transitions -->
+    <div id="ajax-loader">
+        <div class="ajax-bar"></div>
+    </div>
+    <script src="/js/main.js"></script>
+    <script src="/js/slider.js"></script>
+    <script src="/js/router.js"></script>
+</body>
+</html>

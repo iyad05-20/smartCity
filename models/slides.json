@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "title": "La <em>ville de demain</em><br>se construit aujourd'hui",
+    "description": "Le Centre Smart City de l'Université Cadi Ayyad fédère la recherche, l'innovation et les partenariats pour des villes intelligentes, durables et inclusives au Maroc.",
+    "badge": "Centre Smart City · UCA",
+    "bgImage": "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1600&q=80",
+    "cta": [
+      { "text": "Explorer nos projets", "link": "/projets", "type": "primary" },
+      { "text": "Nos axes", "link": "/axes", "type": "outline" }
+    ],
+    "card": {
+      "tag": "Bienvenue au Centre",
+      "title": "Centre Smart City de l'Université Cadi Ayyad",
+      "description": "Un espace d'excellence pluridisciplinaire dédié à la recherche appliquée et à l'innovation pour les villes intelligentes du Maroc et du Maghreb.",
+      "date": "Marrakech, Maroc · uca.ca.ma",
+      "button": null
+    }
+  },
+  {
+    "id": 2,
+    "title": "Forum <em>International<br>Smart City</em> Marrakech",
+    "description": "Conférence internationale réunissant experts, collectivités et industriels autour des enjeux de la ville intelligente au Maghreb. Inscriptions ouvertes.",
+    "badge": "Événement · 18 Juillet 2025",
+    "bgImage": "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&q=80",
+    "cta": [
+      { "text": "En savoir plus", "link": "/evenements", "type": "primary" }
+    ],
+    "card": {
+      "tag": "Annonce · Événement",
+      "title": "Forum International Smart City Marrakech 2025",
+      "description": "Experts nationaux et internationaux, collectivités territoriales et acteurs industriels se réunissent pour 2 jours d'échanges et de conférences.",
+      "date": "18–19 Juillet 2025 · Palais des Congrès",
+      "button": { "text": "Voir l'événement", "link": "/evenements" }
+    }
+  },
+  {
+    "id": 3,
+    "title": "<em>Nouvelle publication</em><br>Smart Grid Marrakech",
+    "description": "Article de recherche : « Smart Grid Implementation in Moroccan Medium-Sized Cities: Challenges and Opportunities » — désormais disponible.",
+    "badge": "Nouvelle publication · 2025",
+    "bgImage": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600&q=80",
+    "cta": [
+      { "text": "Télécharger", "link": "/publications", "type": "primary" },
+      { "text": "Toutes les publications", "link": "/publications", "type": "outline" }
+    ],
+    "card": {
+      "tag": "Publication · Recherche",
+      "title": "Smart Grid Implementation in Moroccan Medium-Sized Cities",
+      "description": "Benali, K., Outahadout, M. — Article de recherche · Énergie & Environnement · Revue internationale à comité de lecture.",
+      "date": "Publié en Juin 2025",
+      "button": { "text": "Lire la publication", "link": "/publications" }
+    }
+  },
+  {
+    "id": 4,
+    "title": "Programme de recherche<br><em>Smart City 2025–2026</em>",
+    "description": "Le Centre Smart City UCA lance son appel à candidatures pour intégrer les équipes de recherche sur ses 4 axes stratégiques. Date limite : 30 Juin 2025.",
+    "badge": "Appel à candidatures · 2025–2026",
+    "bgImage": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80",
+    "cta": [
+      { "text": "Postuler", "link": "#", "type": "primary" }
+    ],
+    "card": {
+      "tag": "Appel à candidatures",
+      "title": "Rejoignez les équipes de recherche du Centre Smart City",
+      "description": "Profils recherchés : doctorants, post-doctorants et chercheurs en IoT, énergie, mobilité ou gouvernance numérique.",
+      "date": "Date limite : 30 Juin 2025",
+      "button": { "text": "Déposer candidature", "link": "#" }
+    }
+  }
+]

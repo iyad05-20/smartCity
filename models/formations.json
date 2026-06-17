@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "title": "Introduction aux Villes Intelligentes",
+    "description": "Panorama des technologies, enjeux et acteurs smart city pour décideurs et professionnels.",
+    "duration": "3 jours",
+    "places": 20,
+    "location": "Présentiel"
+  },
+  {
+    "id": 2,
+    "title": "Déploiement IoT & LoRaWAN",
+    "description": "Formation pratique sur la configuration et le déploiement de réseaux de capteurs urbains.",
+    "duration": "5 jours",
+    "places": 15,
+    "location": "Présentiel"
+  },
+  {
+    "id": 3,
+    "title": "Gestion des données urbaines",
+    "description": "Collecte, traitement et visualisation des données des infrastructures connectées.",
+    "duration": "4 jours",
+    "places": 18,
+    "location": "Présentiel"
+  },
+  {
+    "id": 4,
+    "title": "Cybersécurité pour les collectivités",
+    "description": "Sécurisation des systèmes des administrations locales et infrastructures critiques.",
+    "duration": "3 jours",
+    "places": 20,
+    "location": "Présentiel"
+  },
+  {
+    "id": 5,
+    "title": "Mobilité Urbaine Durable",
+    "description": "Modélisation des systèmes de transport intelligent, études de cas marocains.",
+    "duration": "2 jours",
+    "places": 25,
+    "location": "Présentiel"
+  },
+  {
+    "id": 6,
+    "title": "Transition énergétique & Smart Grid",
+    "description": "Réseaux électriques intelligents, énergies renouvelables et gestion de la demande.",
+    "duration": "4 jours",
+    "places": 15,
+    "location": "Présentiel"
+  }
+]

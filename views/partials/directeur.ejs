@@ -1,0 +1,47 @@
+<div class="dir-fs">
+  <div class="dir-grid">
+    <div class="dir-img-side">
+      <div class="dir-img-overlay"></div>
+      <div class="dir-stripe"></div>
+      <% if (settings.director.photoUrl) { %>
+        <img src="<%= settings.director.photoUrl %>" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;">
+      <% } else { %>
+        <div class="dir-img-placeholder">
+          <div style="text-align:center">
+            <div class="dir-portrait">D</div>
+            <div class="dir-portrait-label">Photo du Directeur<br>à insérer</div>
+          </div>
+        </div>
+      <% } %>
+      <div style="position:absolute;bottom:40px;left:40px;right:40px;z-index:3">
+        <div style="background:rgba(200,132,42,.12);border:1px solid rgba(200,132,42,.2);border-radius:8px;padding:20px;backdrop-filter:blur(10px);">
+          <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(200,132,42,.7);text-transform:uppercase;margin-bottom:8px">Le Centre en bref</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.6)"><svg style="width:14px;height:14px;fill:var(--br);flex-shrink:0" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg> Fondé à la Cité de l'Innovation</div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.6)"><svg style="width:14px;height:14px;fill:var(--br);flex-shrink:0" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg> 4 axes stratégiques de recherche</div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.6)"><svg style="width:14px;height:14px;fill:var(--br);flex-shrink:0" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg> Partenariats public-privé actifs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dir-text-side rv-r">
+      <div class="eyebrow">Mot du Directeur</div>
+      <div class="big-quote">"</div>
+      <div class="dir-quote-text">
+        <% settings.director.quote.split('\n').forEach(function(paragraph) { %>
+          <% if (paragraph.trim().length > 0) { %>
+            <%= paragraph.trim() %><br><br>
+          <% } %>
+        <% }); %>
+      </div>
+      <div class="dir-sig">
+        <div class="dir-av"><%= settings.director.name ? settings.director.name.charAt(0).toUpperCase() : 'D' %></div>
+        <div class="dir-sig-txt">
+          <strong><%= settings.director.name %></strong>
+          <span><%= settings.director.title %></span>
+          <span style="display:block;font-size:11.5px;color:var(--br);margin-top:2px;font-weight:600"><%= settings.director.subtitle %></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

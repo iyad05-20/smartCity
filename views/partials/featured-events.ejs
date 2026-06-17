@@ -1,0 +1,23 @@
+<div class="events-fs" style="background:<%= index % 2 === 0 ? 'var(--wh)' : 'var(--cr)' %>;">
+  <div class="fs-inner">
+    <div class="sh-row rv">
+      <div><div class="sh-lbl">Agenda</div><div class="sh-title">L'Événement Star</div><div class="sh-sub">Ne manquez pas ce rendez-vous majeur de notre agenda.</div></div>
+      <a href="/evenements" class="btn-s">Voir tous les événements</a>
+    </div>
+    <div class="ev-list rv">
+      <% if (data) { %>
+        <a href="/evenements" class="ev-it" style="border-left: 4px solid var(--br)">
+          <div class="ev-date"><div class="ev-day"><%= data.day %></div><div class="ev-mo"><%= data.month %></div></div>
+          <div class="ev-inf">
+            <h3 style="font-size:22px"><%= data.title %></h3>
+            <p style="font-size:16px"><%= data.description %></p>
+            <div class="ev-meta"><span>⏱ <%= data.time %></span><span>📍 <%= data.location %></span></div>
+          </div>
+          <span class="ev-tag" style="font-size:13px"><%= data.type %></span>
+        </a>
+      <% } else { %>
+        <div style="padding:40px;text-align:center;color:var(--gy)">Aucun événement sélectionné.</div>
+      <% } %>
+    </div>
+  </div>
+</div>

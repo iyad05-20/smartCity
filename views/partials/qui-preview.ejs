@@ -1,0 +1,44 @@
+<div class="qui-fs">
+  <div class="fs-inner">
+    <div class="qui-grid">
+      <div class="rv-l">
+        <div class="eyebrow">Qui sommes-nous ?</div>
+        <div class="qui-title"><%- settings.quiSommesNous.title.replace(/innovation/i, "<em>innovation</em>") %></div>
+        <p class="qui-desc"><%= settings.quiSommesNous.description %></p>
+        <div class="vm-cards">
+          <div class="vm-card">
+            <h4>Notre Vision</h4>
+            <p><%= settings.quiSommesNous.vision %></p>
+          </div>
+          <div class="vm-card">
+            <h4>Notre Mission</h4>
+            <p><%= settings.quiSommesNous.mission %></p>
+          </div>
+        </div>
+        <div class="val-tags">
+          <span class="vtag">Innovation</span><span class="vtag">Durabilité</span><span class="vtag">Inclusion</span><span class="vtag">Collaboration</span><span class="vtag">Excellence</span>
+        </div>
+        <a href="/qui-sommes-nous" class="btn-s">En savoir plus <svg style="width:14px;height:14px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></a>
+      </div>
+      <div class="qui-right rv-r">
+        <% 
+          const colors = ['dark', 'orange', 'light', 'cream'];
+          let colorIndex = 0;
+          Object.keys(chiffres).forEach(key => { 
+            if (chiffres[key].active) {
+        %>
+          <div class="qi-box <%= colors[colorIndex % colors.length] %>">
+            <svg viewBox="0 0 24 24"><path d="<%= chiffres[key].icon %>"/></svg>
+            <span><%= chiffres[key].value %></span>
+            <h3><%= chiffres[key].label %></h3>
+            <p><%= chiffres[key].description || '' %></p>
+          </div>
+        <% 
+              colorIndex++;
+            }
+          }) 
+        %>
+      </div>
+    </div>
+  </div>
+</div>

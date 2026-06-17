@@ -1,0 +1,55 @@
+<div class="at">Projets</div>
+<div class="as">Gérer les projets de recherche</div>
+<div class="fc">
+  <form method="POST" action="/admin/projects/add">
+    <h3>Ajouter un projet</h3>
+    <div class="fr">
+      <div class="fg"><label>Titre</label><input type="text" name="title" placeholder="Titre du projet" required></div>
+      <div class="fg">
+        <label>Axe</label>
+        <select name="axe">
+          <option value="Énergie & Environnement">Énergie & Environnement</option>
+          <option value="Connectivité & IoT">Connectivité & IoT</option>
+          <option value="Mobilité Urbaine">Mobilité Urbaine</option>
+          <option value="Gouvernance & Sécurité">Gouvernance & Sécurité</option>
+        </select>
+      </div>
+    </div>
+    <div class="fg"><label>Description courte</label><textarea name="description" placeholder="Description..."></textarea></div>
+    <div class="fr">
+      <div class="fg"><label>Statut</label>
+        <select name="status">
+          <option value="En cours">En cours</option>
+          <option value="Terminé">Terminé</option>
+        </select>
+      </div>
+      <div class="fg"><label>Partenaire / Période</label><input type="text" name="partner" placeholder="ex: 2024-2026"></div>
+    </div>
+    <div class="fr">
+      <div class="fg"><label>URL (Lien externe/détails)</label><input type="text" name="url" placeholder="https://..."></div>
+      <div class="fg"><label>URL Image</label><input type="text" name="image_url" placeholder="/img/projet1.jpg"></div>
+    </div>
+    <button type="submit" class="btn-p">Enregistrer</button>
+  </form>
+</div>
+<div class="a-table">
+  <div class="ath"><h3>Projets existants</h3></div>
+  <table>
+    <tr><th>Titre</th><th>Axe</th><th>Statut</th><th>Actions</th></tr>
+    <% projects.forEach(p => { %>
+      <tr>
+        <td><%= p.title %></td>
+        <td><%= p.axe %></td>
+        <td><span class="<%= p.status === 'Terminé' ? 'st-td' : 'st-en' %>"><%= p.status %></span></td>
+        <td>
+          <div style="display:flex;gap:5px">
+            <button class="ab abe" title="Modifier (Bientôt disponible)">✏</button>
+            <form method="POST" action="/admin/projects/delete/<%= p.id %>" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer définitivement ce projet ?');" style="margin:0">
+              <button type="submit" class="ab abd" title="Supprimer">✕</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+</div>

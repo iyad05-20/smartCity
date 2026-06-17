@@ -1,0 +1,28 @@
+{
+  "general": {
+    "siteName": "Centre Smart City",
+    "universityName": "Université Cadi Ayyad",
+    "contactEmail": "smartcity@uca.ca.ma1",
+    "contactPhone": "+212 5XX-XXXXXX",
+    "address": "Marrakech, Maroc",
+    "websiteUrl": "uca.ca.ma"
+  },
+  "homeHook": {
+    "badgeText": "Impact & Rayonnement",
+    "title": "Le centre en chiffres",
+    "subtitle": "Des résultats concrets au service de l'innovation  au Maroc"
+  },
+  "director": {
+    "name": "Pr. [Nom du Directeur]",
+    "title": "Directeur du Centre Smart City · UCA",
+    "subtitle": "Professeur des Universités · ENSA Marrakech",
+    "quote": "Le Centre Smart City de l'UCA s'inscrit dans une dynamique nationale de transformation digitale des territoires. Notre ambition est de faire de Marrakech un laboratoire vivant de l'innovation urbaine, en mobilisant les meilleures compétences académiques et industrielles au service de villes plus intelligentes, plus durables et plus humaines.\\n\\nNous croyons fermement que l'université a un rôle central à jouer dans la transition numérique de nos villes — non pas comme observatrice, mais comme actrice et catalysatrice du changement.",
+    "photoUrl": ""
+  },
+  "quiSommesNous": {
+    "title": "Un centre au cœur de l'innovation urbaine",
+    "description": "Le Centre Smart City de l'UCA est un espace pluridisciplinaire dédié à la recherche appliquée, à l'innovation technologique et à l'expérimentation de solutions pour les villes intelligentes et durables. Rattaché à la Cité de l'Innovation de Marrakech, nous mobilisons chercheurs, ingénieurs et partenaires autour d'enjeux urbains concrets.",
+    "vision": "Être le centre de référence pour les villes intelligentes et durables au Maghreb à l'horizon 2030, en contribuant à l'émergence d'un écosystème territorial connecté et résilient.",
+    "mission": "Fédérer les acteurs académiques, industriels et institutionnels autour de projets de recherche à fort impact territorial, adaptés aux réalités des villes marocaines et africaines."
+  }
+}

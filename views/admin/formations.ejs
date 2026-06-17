@@ -1,0 +1,50 @@
+<div class="at">Formations</div>
+<div class="as">Gérer le catalogue de formations</div>
+<div class="fc">
+  <form method="POST" action="/admin/formations/add">
+    <h3>Ajouter une formation</h3>
+    <div class="fr">
+      <div class="fg"><label>Titre</label><input type="text" name="title" placeholder="Titre de la formation" required></div>
+      <div class="fg"><label>Durée</label><input type="text" name="duration" placeholder="Ex: 3 jours / 2 ans"></div>
+    </div>
+    <div class="fg"><label>Description courte</label><textarea name="description" placeholder="Description courte..."></textarea></div>
+    <div class="fr">
+      <div class="fg"><label>Niveau</label><input type="text" name="level" placeholder="Ex: Master, Formation Continue"></div>
+      <div class="fg">
+        <label>Type / Lieu</label>
+        <select name="type">
+          <option value="Présentiel">Présentiel</option>
+          <option value="En ligne">En ligne</option>
+          <option value="Hybride">Hybride</option>
+        </select>
+      </div>
+    </div>
+    <div class="fr">
+      <div class="fg"><label>URL externe</label><input type="text" name="url" placeholder="https://..."></div>
+      <div class="fg"><label>URL Image</label><input type="text" name="image_url" placeholder="/img/formation1.jpg"></div>
+    </div>
+    <button type="submit" class="btn-p">Enregistrer</button>
+  </form>
+</div>
+<div class="a-table">
+  <div class="ath"><h3>Formations existantes</h3></div>
+  <table>
+    <tr><th>Titre</th><th>Durée</th><th>Niveau</th><th>Type/Lieu</th><th>Actions</th></tr>
+    <% formations.forEach(f => { %>
+      <tr>
+        <td><%= f.title %></td>
+        <td><%= f.duration %></td>
+        <td><%= f.level %></td>
+        <td><%= f.type || f.location %></td>
+        <td>
+          <div style="display:flex;gap:5px">
+            <button class="ab abe" title="Modifier (Bientôt disponible)">✏</button>
+            <form method="POST" action="/admin/formations/delete/<%= f.id %>" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer définitivement cette formation ?');" style="margin:0">
+              <button type="submit" class="ab abd" title="Supprimer">✕</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+</div>
