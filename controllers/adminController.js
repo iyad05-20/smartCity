@@ -186,24 +186,10 @@ exports.postSelection = (req, res) => {
     }
 };
 
-// Helper for file uploads
-const extractFiles = (req, data) => {
-    if (req.files) {
-        if (req.files['image_file'] && req.files['image_file'][0]) {
-            data.image_url = '/uploads/' + req.files['image_file'][0].filename;
-        }
-        if (req.files['pdf_file'] && req.files['pdf_file'][0]) {
-            data.pdf_url = '/uploads/' + req.files['pdf_file'][0].filename;
-        }
-    }
-    return data;
-};
-
 // --- CRUD PROJECTS ---
 exports.postAddProject = async (req, res) => {
     try {
-        const data = extractFiles(req, { ...req.body });
-        await ProjectRepository.create(data);
+        await ProjectRepository.create(req.body);
         res.redirect('/admin/projects');
     } catch (err) {
         res.status(500).send(err.message);
@@ -221,8 +207,7 @@ exports.postDeleteProject = async (req, res) => {
 // --- CRUD EVENTS ---
 exports.postAddEvent = async (req, res) => {
     try {
-        const data = extractFiles(req, { ...req.body });
-        await EventRepository.create(data);
+        await EventRepository.create(req.body);
         res.redirect('/admin/events');
     } catch (err) {
         res.status(500).send(err.message);
@@ -240,8 +225,7 @@ exports.postDeleteEvent = async (req, res) => {
 // --- CRUD PUBLICATIONS ---
 exports.postAddPublication = async (req, res) => {
     try {
-        const data = extractFiles(req, { ...req.body });
-        await PublicationRepository.create(data);
+        await PublicationRepository.create(req.body);
         res.redirect('/admin/publications');
     } catch (err) {
         res.status(500).send(err.message);
@@ -259,8 +243,7 @@ exports.postDeletePublication = async (req, res) => {
 // --- CRUD FORMATIONS ---
 exports.postAddFormation = async (req, res) => {
     try {
-        const data = extractFiles(req, { ...req.body });
-        await FormationRepository.create(data);
+        await FormationRepository.create(req.body);
         res.redirect('/admin/formations');
     } catch (err) {
         res.status(500).send(err.message);
