@@ -10,4 +10,7 @@ router.get('/formations', publicController.getFormations);
 router.get('/publications', publicController.getPublications);
 router.get('/evenements', publicController.getEvents);
 
+// API endpoint for researcher registration
+router.post('/api/increment-chercheur', publicController.incrementChercheur);
+
 module.exports = router;

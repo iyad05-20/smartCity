@@ -36,7 +36,8 @@ exports.getProjects = async (req, res) => {
         layout: 'layouts/admin',
         title: 'Gérer les projets',
         currentPage: 'projects',
-        projects: await ProjectRepository.findAll()
+        projects: await ProjectRepository.findAll(),
+        axes: await require('../repositories/AxeRepository').findAll()
     });
 };
 
@@ -185,10 +186,24 @@ exports.postSelection = (req, res) => {
     }
 };
 
+// Helper for file uploads
+const extractFiles = (req, data) => {
+    if (req.files) {
+        if (req.files['image_file'] && req.files['image_file'][0]) {
+            data.image_url = '/uploads/' + req.files['image_file'][0].filename;
+        }
+        if (req.files['pdf_file'] && req.files['pdf_file'][0]) {
+            data.pdf_url = '/uploads/' + req.files['pdf_file'][0].filename;
+        }
+    }
+    return data;
+};
+
 // --- CRUD PROJECTS ---
 exports.postAddProject = async (req, res) => {
     try {
-        await ProjectRepository.create(req.body);
+        const data = extractFiles(req, { ...req.body });
+        await ProjectRepository.create(data);
         res.redirect('/admin/projects');
     } catch (err) {
         res.status(500).send(err.message);
@@ -206,7 +221,8 @@ exports.postDeleteProject = async (req, res) => {
 // --- CRUD EVENTS ---
 exports.postAddEvent = async (req, res) => {
     try {
-        await EventRepository.create(req.body);
+        const data = extractFiles(req, { ...req.body });
+        await EventRepository.create(data);
         res.redirect('/admin/events');
     } catch (err) {
         res.status(500).send(err.message);
@@ -224,7 +240,8 @@ exports.postDeleteEvent = async (req, res) => {
 // --- CRUD PUBLICATIONS ---
 exports.postAddPublication = async (req, res) => {
     try {
-        await PublicationRepository.create(req.body);
+        const data = extractFiles(req, { ...req.body });
+        await PublicationRepository.create(data);
         res.redirect('/admin/publications');
     } catch (err) {
         res.status(500).send(err.message);
@@ -242,7 +259,8 @@ exports.postDeletePublication = async (req, res) => {
 // --- CRUD FORMATIONS ---
 exports.postAddFormation = async (req, res) => {
     try {
-        await FormationRepository.create(req.body);
+        const data = extractFiles(req, { ...req.body });
+        await FormationRepository.create(data);
         res.redirect('/admin/formations');
     } catch (err) {
         res.status(500).send(err.message);

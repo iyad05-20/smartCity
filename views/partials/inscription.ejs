@@ -1,0 +1,30 @@
+<div
+  style="background: var(--cr); padding: 80px 1.5rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);">
+  <div style="max-width: 800px; margin: 0 auto;">
+    <div class="sh-lbl" style="justify-content: center; margin-bottom: 16px;">Rejoignez-nous</div>
+    <h2 class="sh-title" style="margin-bottom: 24px;">Devenir membre du Centre</h2>
+    <p class="sh-sub" style="margin-bottom: 32px; max-width: 100%;">
+      En devenant membre du Centre Smart City, vous bénéficiez de nombreux avantages : <strong>droit de vote</strong>
+      aux assemblées, <strong>éligibilité</strong> aux instances de gouvernance, <strong>accès privilégié</strong> à nos
+      informations et ressources technologiques, et <strong>pleine participation</strong> à nos activités de recherche
+      et d'innovation.
+    </p>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSflOPeJUQTgRYDgQrUa8g_52kgC0_ph8KfX38dZBOxR0-pXaQ/viewform"
+      target="_blank" class="btn-s" id="btn-inscription"
+      style="display: inline-flex; font-size: 1.1rem; padding: 14px 32px;">S'inscrire maintenant</a>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('btn-inscription');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        fetch('/api/increment-chercheur', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(err => console.error('Erreur incrémentation chercheur:', err));
+      });
+    }
+  });
+</script>

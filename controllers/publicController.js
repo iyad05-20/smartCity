@@ -29,6 +29,8 @@ const ProjectRepository = require('../repositories/ProjectRepository');
 const EventRepository = require('../repositories/EventRepository');
 const PublicationRepository = require('../repositories/PublicationRepository');
 const FormationRepository = require('../repositories/FormationRepository');
+const AxeRepository = require('../repositories/AxeRepository');
+const SiteCounterRepository = require('../repositories/SiteCounterRepository');
 
 exports.getHome = async (req, res) => {
     let selection;
@@ -109,11 +111,17 @@ exports.getHome = async (req, res) => {
     // Fallback to default slides if no slots are active/found
     const finalSlides = dynamicSlides.length > 0 ? dynamicSlides : loadData('slides.json');
 
+    const chiffres = loadData('chiffres.json');
+    const nbrChercheurs = await SiteCounterRepository.getCounter('nbr_chercheurs');
+    if (chiffres.membres) {
+        chiffres.membres.value = nbrChercheurs;
+    }
+
     renderPage(req, res, 'public/home', {
         title: 'Accueil - Centre Smart City',
         currentPage: 'home',
         slides: finalSlides,
-        chiffres: loadData('chiffres.json'),
+        chiffres: chiffres,
         events: events.slice(0, 3)
     });
 };
@@ -125,10 +133,11 @@ exports.getQui = (req, res) => {
     });
 };
 
-exports.getAxes = (req, res) => {
+exports.getAxes = async (req, res) => {
     renderPage(req, res, 'public/axes', {
         title: 'Axes de recherche - Centre Smart City',
-        currentPage: 'axes'
+        currentPage: 'axes',
+        axes: await AxeRepository.findAll()
     });
 };
 
@@ -162,4 +171,14 @@ exports.getEvents = async (req, res) => {
         currentPage: 'events',
         events: await EventRepository.findAll()
     });
+};
+
+exports.incrementChercheur = async (req, res) => {
+    try {
+        const newValue = await SiteCounterRepository.incrementCounter('nbr_chercheurs');
+        res.json({ success: true, newValue });
+    } catch (err) {
+        console.error("Error incrementing researcher count:", err);
+        res.status(500).json({ success: false, error: "Internal server error" });
+    }
 };

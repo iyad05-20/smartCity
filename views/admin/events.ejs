@@ -5,7 +5,8 @@
     <h3>Ajouter un événement</h3>
     <div class="fr">
       <div class="fg"><label>Titre</label><input type="text" name="title" placeholder="Titre" required></div>
-      <div class="fg"><label>Date Complète (ex: 15 Octobre 2024)</label><input type="text" name="event_date" placeholder="15 Octobre 2024"></div>
+      <div class="fg"><label>Date Complète (ex: 15 Octobre 2024)</label><input type="text" name="event_date"
+          placeholder="15 Octobre 2024"></div>
     </div>
     <div class="fr">
       <div class="fg"><label>Jour (ex: 15)</label><input type="text" name="day" placeholder="15"></div>
@@ -32,23 +33,39 @@
   </form>
 </div>
 <div class="a-table">
-  <div class="ath"><h3>Événements existants</h3></div>
+  <div class="ath">
+    <h3>Événements existants</h3>
+  </div>
   <table>
-    <tr><th>Titre</th><th>Date</th><th>Type</th><th>Actions</th></tr>
-    <% events.forEach(ev => { %>
+    <tr>
+      <th>Titre</th>
+      <th>Date</th>
+      <th>Type</th>
+      <th>Actions</th>
+    </tr>
+    <% events.forEach(ev=> { %>
       <tr>
-        <td><%= ev.title %></td>
-        <td><%= ev.day %> <%= ev.month %></td>
-        <td><span class="tag" style="font-size:10px"><%= ev.type %></span></td>
+        <td>
+          <%= ev.title %>
+        </td>
+        <td>
+          <%= ev.day %>
+            <%= ev.month %>
+        </td>
+        <td><span class="tag" style="font-size:10px">
+            <%= ev.type %>
+          </span></td>
         <td>
           <div style="display:flex;gap:5px">
             <button class="ab abe" title="Modifier (Bientôt disponible)">✏</button>
-            <form method="POST" action="/admin/events/delete/<%= ev.id %>" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer définitivement cet événement ?');" style="margin:0">
+            <form method="POST" action="/admin/events/delete/<%= ev.id %>"
+              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer définitivement cet événement ?');"
+              style="margin:0">
               <button type="submit" class="ab abd" title="Supprimer">✕</button>
             </form>
           </div>
         </td>
       </tr>
-    <% }) %>
+      <% }) %>
   </table>
 </div>

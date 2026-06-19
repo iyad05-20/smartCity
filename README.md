@@ -72,6 +72,8 @@ SMARTCity/
 ├── routes/
 │   ├── admin.js               # Admin routes (/admin/*)
 │   └── public.js              # Public routes (/, /projets, etc.)
+├── services/
+│   └── uploadService.js       # File upload abstraction (multer)
 ├── views/
 │   ├── admin/                 # Admin panel views
 │   ├── layouts/               # EJS layout templates
@@ -134,8 +136,9 @@ DB_NAME=smartcity
 
 The project includes an automatic initialization script that:
 - Creates the `smartcity` database if it doesn't exist.
-- Creates all required tables (`projects`, `events`, `publications`, `formations`).
-- Seeds the tables with sample data from the JSON files in `models/`.
+- Creates all required tables (`axes`, `projects`, `events`, `publications`, `formations`, `site_counters`).
+- Adds advanced columns (`axe_id`, `image_url`, `pdf_url`) to handle relationships and file uploads.
+- Seeds the tables with sample data and official research axes.
 
 ### Run the init script:
 
@@ -222,6 +225,7 @@ Server running on http://localhost:3000
 | `DB_USER`  | MySQL username             | `root`        |
 | `DB_PASS`  | MySQL password             | *(required)*  |
 | `DB_NAME`  | MySQL database name        | `smartcity`   |
+| `CLOUDINARY_URL` | *(Optional)* Cloudinary credentials for cloud uploads | `''` |
 
 ---
 
